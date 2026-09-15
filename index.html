@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>One Piece: Grand Line Tic-Tac-Toe • Multi-Level AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>One Piece: Grand Line Arcade • Tic-Tac-Toe & Sudoku</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
@@ -35,6 +35,13 @@
       --text-muted: #94a3b8;
       --text-gold: #fbbf24;
 
+      --cell-bg: rgba(22, 28, 42, 0.7);
+      --cell-given-bg: rgba(15, 20, 32, 0.9);
+      --cell-selected: rgba(56, 189, 248, 0.35);
+      --cell-highlight: rgba(56, 189, 248, 0.1);
+      --cell-same-num: rgba(245, 158, 11, 0.25);
+      --cell-error-bg: rgba(239, 68, 68, 0.35);
+
       --radius-sm: 10px;
       --radius-md: 16px;
       --radius-lg: 24px;
@@ -55,6 +62,11 @@
       --color-o-glow: rgba(0, 229, 153, 0.4);
       --color-o-bg: rgba(0, 229, 153, 0.15);
       --text-gold: #00e599;
+      --cell-bg: rgba(20, 26, 38, 0.75);
+      --cell-given-bg: rgba(12, 16, 24, 0.95);
+      --cell-selected: rgba(0, 229, 153, 0.35);
+      --cell-highlight: rgba(0, 229, 153, 0.1);
+      --cell-same-num: rgba(255, 45, 96, 0.25);
     }
 
     [data-theme="cyber"] {
@@ -71,6 +83,11 @@
       --color-o-glow: rgba(6, 182, 212, 0.5);
       --color-o-bg: rgba(6, 182, 212, 0.15);
       --text-gold: #06b6d4;
+      --cell-bg: rgba(20, 15, 35, 0.75);
+      --cell-given-bg: rgba(12, 8, 24, 0.95);
+      --cell-selected: rgba(6, 182, 212, 0.35);
+      --cell-highlight: rgba(168, 85, 247, 0.12);
+      --cell-same-num: rgba(236, 72, 153, 0.25);
     }
 
     [data-theme="neobrutal"] {
@@ -89,6 +106,12 @@
       --text-main: #000000;
       --text-muted: #475569;
       --text-gold: #000000;
+      --cell-bg: #f8fafc;
+      --cell-given-bg: #e2e8f0;
+      --cell-selected: #93c5fd;
+      --cell-highlight: #f1f5f9;
+      --cell-same-num: #fef08a;
+      --cell-error-bg: #fca5a5;
     }
 
     * {
@@ -110,8 +133,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px 14px;
+      justify-content: flex-start;
+      padding: 16px 12px;
       font-family: 'Space Grotesk', sans-serif;
       overflow-x: hidden;
       position: relative;
@@ -125,7 +148,7 @@
 
     .container {
       width: 100%;
-      max-width: 480px;
+      max-width: 490px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -191,6 +214,53 @@
       box-shadow: 2px 2px 0 #000;
     }
 
+    /* Master Game Switcher Segmented Control */
+    .game-mode-switcher {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: rgba(10, 14, 24, 0.75);
+      border: 1px solid var(--card-border);
+      padding: 4px;
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(10px);
+    }
+    [data-theme="neobrutal"] .game-mode-switcher {
+      background: #ffffff;
+      border: 2px solid #000;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    .game-tab-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 800;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .game-tab-btn.active {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      transform: scale(1.02);
+    }
+    [data-theme="neobrutal"] .game-tab-btn.active {
+      background: #fde047;
+      color: #000;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+      transform: none;
+    }
+
     /* Header */
     header {
       text-align: center;
@@ -201,45 +271,41 @@
     }
 
     .wanted-tag {
-      font-family: 'Cinzel', serif;
-      font-size: 0.8rem;
-      font-weight: 900;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-gold);
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 3px 12px;
-      border-radius: 6px;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      padding: 3px 12px;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.35);
+      border-radius: 9999px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #f87171;
     }
-
     [data-theme="neobrutal"] .wanted-tag {
       background: #000;
-      color: #fde047;
-      border: 2px solid #000;
+      color: #fff;
+      border: none;
     }
 
     .title-banner {
       font-family: 'Cinzel', serif;
-      font-size: 2rem;
+      font-size: 1.85rem;
       font-weight: 900;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      background: linear-gradient(135deg, #ffffff 30%, #fbbf24 80%, #d97706 100%);
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--text-gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+      text-shadow: 0 0 30px rgba(245, 158, 11, 0.25);
     }
-
     [data-theme="neobrutal"] .title-banner {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-text-fill-color: #000000;
+      background: none;
+      -webkit-text-fill-color: #000;
+      color: #000;
       text-shadow: none;
-      font-size: 2.2rem;
-      font-weight: 800;
     }
 
     /* Bento Cards */
@@ -249,154 +315,101 @@
       border-radius: var(--radius-lg);
       padding: 12px 16px;
       backdrop-filter: blur(16px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       transition: all 0.2s ease;
     }
-
     [data-theme="neobrutal"] .bento-card {
-      border: 3px solid #000;
-      box-shadow: 5px 5px 0 #000;
-      border-radius: 12px;
+      border: 2px solid #000;
+      box-shadow: 4px 4px 0 #000;
     }
 
+    /* Bounty Ladder Bar */
     .bounty-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-
-    .bounty-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
     .bounty-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-
-    .bounty-amount {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--text-gold);
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-      text-shadow: 0 0 16px var(--accent-gold-glow);
-    }
-
-    [data-theme="neobrutal"] .bounty-amount {
-      text-shadow: none;
-      color: #000;
-    }
-
-    .bounty-rank {
       font-size: 0.72rem;
+      color: var(--text-muted);
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .bounty-amount {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text-gold);
+    }
+    .bounty-rank {
+      font-size: 0.78rem;
+      font-weight: 800;
       background: rgba(245, 158, 11, 0.15);
       border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
       color: var(--text-gold);
     }
-
     [data-theme="neobrutal"] .bounty-rank {
-      background: #f43f5e;
-      color: #fff;
+      background: #86efac;
+      color: #000;
       border: 2px solid #000;
-      box-shadow: 2px 2px 0 #000;
     }
 
-    /* Difficulty & Mode Selector Grid */
+    /* Difficulty Bar */
     .difficulty-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
     }
-
     .diff-label {
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-size: 0.8rem;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
     }
-
     .diff-selector-pill {
-      display: flex;
-      align-items: center;
-      gap: 4px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      padding: 3px 8px;
-      border-radius: 8px;
+      padding: 4px 8px;
+      border-radius: 9999px;
     }
 
-    /* Battle Status Bar */
+    /* Status Card */
     .status-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 16px;
     }
-
     .status-side {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
-
     .pirate-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      font-weight: 800;
-      transition: all 0.25s ease;
+      font-size: 1.25rem;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.06);
     }
-
-    .pirate-icon.x {
-      background: var(--color-x-bg);
-      border: 1px solid var(--color-x);
-      color: var(--color-x);
-      box-shadow: 0 0 18px var(--color-x-glow);
-    }
-
-    .pirate-icon.o {
-      background: var(--color-o-bg);
-      border: 1px solid var(--color-o);
-      color: var(--color-o);
-      box-shadow: 0 0 18px var(--color-o-glow);
-    }
-
-    [data-theme="neobrutal"] .pirate-icon {
-      border: 2px solid #000;
-      box-shadow: 2px 2px 0 #000;
-    }
-
     .status-main-text {
-      font-size: 1rem;
       font-weight: 800;
-      color: var(--text-main);
+      font-size: 0.95rem;
     }
-
     .status-sub-text {
       font-size: 0.74rem;
       color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
     }
 
-    /* 3x3 Grand Line Battle Grid */
+    /* =============================================================
+       TIC-TAC-TOE BOARD
+    ============================================================= */
     .battle-grid {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -410,7 +423,6 @@
       border-radius: var(--radius-xl);
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
-
     [data-theme="neobrutal"] .battle-grid {
       background: #ffffff;
       border: 3px solid #000;
@@ -419,7 +431,7 @@
     }
 
     .grid-slot {
-      background: rgba(22, 28, 42, 0.7);
+      background: var(--cell-bg);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: var(--radius-md);
       display: flex;
@@ -431,7 +443,6 @@
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     [data-theme="neobrutal"] .grid-slot {
       background: #f8fafc;
       border: 2px solid #000;
@@ -439,23 +450,18 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 3.4rem;
     }
-
     .grid-slot:hover:not(.occupied) {
       background: rgba(35, 45, 68, 0.85);
       border-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-3px) scale(1.02);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
-
     [data-theme="neobrutal"] .grid-slot:hover:not(.occupied) {
       background: #e2e8f0;
       transform: translate(-2px, -2px);
       box-shadow: 4px 4px 0 #000;
     }
-
-    .grid-slot:active:not(.occupied) {
-      transform: scale(0.96);
-    }
+    .grid-slot:active:not(.occupied) { transform: scale(0.96); }
 
     .grid-slot.x {
       color: var(--color-x);
@@ -463,7 +469,6 @@
       cursor: default;
       animation: slashPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     .grid-slot.o {
       color: var(--color-o);
       text-shadow: 0 0 24px var(--color-o-glow);
@@ -477,7 +482,6 @@
       box-shadow: 0 0 36px var(--accent-gold-glow) !important;
       animation: hakiPulse 1.2s infinite alternate ease-in-out;
     }
-
     [data-theme="neobrutal"] .grid-slot.haki-winning {
       background: #86efac !important;
       border: 3px solid #000 !important;
@@ -485,74 +489,270 @@
       animation: none;
     }
 
-    @keyframes slashPop {
-      0% { transform: scale(0.3) rotate(-20deg); opacity: 0; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    /* =============================================================
+       SUDOKU 9x9 BOARD & CELL STYLES
+    ============================================================= */
+    .sudoku-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
     }
 
-    @keyframes hakiPulse {
-      0% { transform: scale(1); filter: brightness(1); }
-      100% { transform: scale(1.05); filter: brightness(1.4); }
+    .sudoku-grid {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      grid-template-rows: repeat(9, 1fr);
+      background: rgba(10, 14, 24, 0.9);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+    [data-theme="neobrutal"] .sudoku-grid {
+      background: #ffffff;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0 #000;
+    }
+
+    .sudoku-cell {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--cell-bg);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background 0.12s ease;
+    }
+    [data-theme="neobrutal"] .sudoku-cell {
+      border-right: 1px solid #cbd5e1;
+      border-bottom: 1px solid #cbd5e1;
+    }
+
+    /* 3x3 block thicker borders */
+    .sudoku-cell.block-right {
+      border-right: 2px solid var(--accent-gold) !important;
+    }
+    .sudoku-cell.block-bottom {
+      border-bottom: 2px solid var(--accent-gold) !important;
+    }
+    [data-theme="neobrutal"] .sudoku-cell.block-right { border-right: 3px solid #000 !important; }
+    [data-theme="neobrutal"] .sudoku-cell.block-bottom { border-bottom: 3px solid #000 !important; }
+
+    .sudoku-cell.given {
+      background: var(--cell-given-bg);
+      color: #ffffff;
+      font-weight: 900;
+    }
+    [data-theme="neobrutal"] .sudoku-cell.given {
+      background: #e2e8f0;
+      color: #000000;
+    }
+
+    .sudoku-cell.user-placed {
+      color: var(--color-o);
+      text-shadow: 0 0 12px var(--color-o-glow);
+    }
+    [data-theme="neobrutal"] .sudoku-cell.user-placed {
+      color: #2563eb;
+      text-shadow: none;
+    }
+
+    .sudoku-cell.selected {
+      background: var(--cell-selected) !important;
+      box-shadow: inset 0 0 0 2px var(--accent-gold);
+    }
+    [data-theme="neobrutal"] .sudoku-cell.selected {
+      background: #93c5fd !important;
+      box-shadow: inset 0 0 0 2px #000;
+    }
+
+    .sudoku-cell.highlighted {
+      background: var(--cell-highlight);
+    }
+    .sudoku-cell.same-val {
+      background: var(--cell-same-num) !important;
+    }
+
+    .sudoku-cell.error {
+      background: var(--cell-error-bg) !important;
+      color: #ef4444 !important;
+      animation: slashPop 0.2s ease;
+    }
+
+    .sudoku-cell.hint-target {
+      animation: hakiPulse 1s infinite alternate;
+      box-shadow: inset 0 0 0 2px #eab308;
+    }
+
+    /* Pencil Notes 3x3 Inside Cell */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      width: 100%;
+      height: 100%;
+      padding: 1px;
+      pointer-events: none;
+    }
+    .note-digit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      line-height: 1;
+    }
+    .note-digit.active-match {
+      color: var(--text-gold);
+      font-weight: 900;
+      transform: scale(1.15);
+    }
+
+    /* Sudoku Number Pad (1-9) */
+    .sudoku-numpad {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 5px;
+      width: 100%;
+    }
+    .numpad-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    [data-theme="neobrutal"] .numpad-btn {
+      background: #ffffff;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .numpad-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--accent-gold);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .numpad-btn:active:not(:disabled) { transform: scale(0.94); }
+    .numpad-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+    .numpad-count {
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      font-weight: 700;
     }
 
     /* Actions Bar */
     .actions-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
       width: 100%;
+    }
+    .actions-grid.ttt-actions {
+      grid-template-columns: 1fr 1fr;
     }
 
     .action-btn {
-      padding: 12px 16px;
+      padding: 10px 8px;
       border-radius: var(--radius-md);
-      font-size: 0.9rem;
+      font-size: 0.76rem;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 3px;
       transition: all 0.2s ease;
       border: 1px solid transparent;
       outline: none;
+      background: var(--card-bg);
+      border-color: var(--card-border);
+      color: var(--text-main);
+    }
+    [data-theme="neobrutal"] .action-btn {
+      background: #ffffff;
+      color: #000;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .action-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .action-btn:active:not(:disabled) { transform: scale(0.95); }
+    .action-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .action-btn.active-toggle {
+      background: var(--accent-gold) !important;
+      color: #000000 !important;
+      box-shadow: 0 4px 14px var(--accent-gold-glow);
     }
 
     .btn-pirate-primary {
       background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
       color: #ffffff;
       box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
+      flex-direction: row;
+      gap: 6px;
+      font-size: 0.88rem;
     }
-    .btn-pirate-primary:hover {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      transform: translateY(-2px);
-    }
-
-    .btn-pirate-secondary {
-      background: var(--card-bg);
-      border-color: var(--card-border);
-      color: var(--text-main);
-    }
-    .btn-pirate-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
-
     [data-theme="neobrutal"] .btn-pirate-primary {
       background: #f43f5e;
       color: #fff;
       border: 2px solid #000;
       box-shadow: 3px 3px 0 #000;
     }
-    [data-theme="neobrutal"] .btn-pirate-primary:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 5px 5px 0 #000;
+
+    .btn-pirate-secondary {
+      flex-direction: row;
+      gap: 6px;
+      font-size: 0.88rem;
     }
-    [data-theme="neobrutal"] .btn-pirate-secondary {
-      background: #ffffff;
-      color: #000;
-      border: 2px solid #000;
-      box-shadow: 3px 3px 0 #000;
+
+    /* Hint Explanation Banner */
+    .hint-card {
+      display: none;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--accent-gold);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      animation: slashPop 0.2s ease;
+    }
+    .hint-card.show { display: block; }
+    .hint-header {
+      font-weight: 800;
+      color: var(--text-gold);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     /* Scoreboard Tracker */
@@ -568,6 +768,15 @@
     .stats-footer strong {
       color: var(--text-main);
       font-size: 0.95rem;
+    }
+
+    @keyframes slashPop {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes hakiPulse {
+      0% { transform: scale(1); filter: brightness(1); }
+      100% { transform: scale(1.05); filter: brightness(1.4); }
     }
 
     #fxCanvas {
@@ -602,15 +811,25 @@
       </div>
     </div>
 
+    <!-- Master Game Switcher Tabs -->
+    <div class="game-mode-switcher">
+      <button class="game-tab-btn active" id="tabTTT" onclick="switchGame('ttt')">
+        <span>⚔️ Tic-Tac-Toe</span>
+      </button>
+      <button class="game-tab-btn" id="tabSudoku" onclick="switchGame('sudoku')">
+        <span>🧩 Grand Line Sudoku</span>
+      </button>
+    </div>
+
     <!-- Header & Wanted Badge -->
     <header>
       <div class="wanted-tag">
-        <span>⚔️ WANTED • DEAD OR ALIVE ⚔️</span>
+        <span id="wantedSub">⚔️ WANTED • DEAD OR ALIVE ⚔️</span>
       </div>
-      <h1 class="title-banner" id="mainTitle">GRAND LINE TTT</h1>
+      <h1 class="title-banner" id="mainTitle">GRAND LINE ARCADE</h1>
     </header>
 
-    <!-- Bounty & Level Bento Card -->
+    <!-- Bounty & Level Bento Card (Shared Across Both Games!) -->
     <div class="bento-card">
       <div class="bounty-row">
         <div class="bounty-left">
@@ -624,67 +843,168 @@
       </div>
     </div>
 
-    <!-- Difficulty / Mode Selector Card -->
-    <div class="bento-card difficulty-bar">
-      <span class="diff-label">⚔️ AI Level</span>
-      <div class="diff-selector-pill">
-        <select class="clean-select" id="difficultySelector" onchange="changeDifficulty(this.value)">
-          <option value="easy">🥉 East Blue (Easy / 🤡 Buggy)</option>
-          <option value="medium">🥈 Grand Line (Medium / 🐊 Crocodile)</option>
-          <option value="hard">🥇 New World (Hard / ⚡ Kizaru)</option>
-          <option value="impossible" selected>👑 Pirate King (Unbeatable / 🧠 Vegapunk)</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Battle Status Banner -->
-    <div class="bento-card status-card">
-      <div class="status-side">
-        <div class="pirate-icon x" id="statusAvatar">👒</div>
-        <div>
-          <div class="status-main-text" id="statusTitle">Luffy's Turn</div>
-          <div class="status-sub-text" id="statusSub">Claim a territory on the Grand Line</div>
+    <!-- =========================================================
+         SECTION 1: TIC-TAC-TOE VIEW
+    ========================================================= -->
+    <div id="tttView">
+      <!-- Difficulty / Mode Selector Card -->
+      <div class="bento-card difficulty-bar" style="margin-bottom: 12px;">
+        <span class="diff-label">⚔️ AI Opponent</span>
+        <div class="diff-selector-pill">
+          <select class="clean-select" id="difficultySelector" onchange="changeTTTDifficulty(this.value)">
+            <option value="easy">🥉 East Blue (Easy / 🤡 Buggy)</option>
+            <option value="medium">🥈 Grand Line (Medium / 🐊 Crocodile)</option>
+            <option value="hard">🥇 New World (Hard / ⚡ Kizaru)</option>
+            <option value="impossible" selected>👑 Pirate King (Unbeatable / 🧠 Vegapunk)</option>
+          </select>
         </div>
       </div>
-      <div style="font-size: 0.75rem; color: var(--text-gold); font-weight: 700; text-align: right;" id="modeBadge">
-        vs Vegapunk AI
+
+      <!-- Battle Status Banner -->
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x" id="statusAvatar">👒</div>
+          <div>
+            <div class="status-main-text" id="statusTitle">Luffy's Turn</div>
+            <div class="status-sub-text" id="statusSub">Claim a territory on the Grand Line</div>
+          </div>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-gold); font-weight: 700; text-align: right;" id="modeBadge">
+          vs Vegapunk AI
+        </div>
+      </div>
+
+      <!-- 3x3 Grand Line Grid -->
+      <div class="battle-grid" id="boardGrid" style="margin-bottom: 12px;">
+        <div class="grid-slot" onclick="handleTTTCellClick(0)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(1)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(2)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(3)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(4)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(5)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(6)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(7)"></div>
+        <div class="grid-slot" onclick="handleTTTCellClick(8)"></div>
+      </div>
+
+      <!-- Controls -->
+      <div class="actions-grid ttt-actions" style="margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-secondary" onclick="toggleTTTMode()">
+          <span id="modeBtnText">👥 Switch to PvP</span>
+        </button>
+        <button class="action-btn btn-pirate-primary" onclick="resetTTTGame(true)">
+          <span>⚔️ Set Sail (New)</span>
+        </button>
+      </div>
+
+      <!-- Win/Loss Stats -->
+      <div class="bento-card stats-footer">
+        <div>Straw Hat: <strong id="winsX" style="color: var(--color-x)">0</strong></div>
+        <div>Opponent: <strong id="winsO" style="color: var(--color-o)">0</strong></div>
+        <div>Draws: <strong id="tiesCount">0</strong></div>
       </div>
     </div>
 
-    <!-- 3x3 Grand Line Grid -->
-    <div class="battle-grid" id="boardGrid">
-      <div class="grid-slot" onclick="handleCellClick(0)"></div>
-      <div class="grid-slot" onclick="handleCellClick(1)"></div>
-      <div class="grid-slot" onclick="handleCellClick(2)"></div>
-      <div class="grid-slot" onclick="handleCellClick(3)"></div>
-      <div class="grid-slot" onclick="handleCellClick(4)"></div>
-      <div class="grid-slot" onclick="handleCellClick(5)"></div>
-      <div class="grid-slot" onclick="handleCellClick(6)"></div>
-      <div class="grid-slot" onclick="handleCellClick(7)"></div>
-      <div class="grid-slot" onclick="handleCellClick(8)"></div>
+    <!-- =========================================================
+         SECTION 2: GRAND LINE SUDOKU VIEW
+    ========================================================= -->
+    <div id="sudokuView" style="display: none;">
+      <!-- Difficulty Selector Card -->
+      <div class="bento-card difficulty-bar" style="margin-bottom: 12px;">
+        <span class="diff-label">🧩 Diff Level</span>
+        <div class="diff-selector-pill">
+          <select class="clean-select" id="sudokuDiffSelector" onchange="changeSudokuDifficulty(this.value)">
+            <option value="easy">🥉 East Blue (Easy • ~40 Clues)</option>
+            <option value="medium" selected>🥈 Grand Line (Medium • ~32 Clues)</option>
+            <option value="hard">🥇 New World (Hard • ~27 Clues)</option>
+            <option value="expert">👑 Pirate King (Expert • ~23 Clues)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Status Bar: Mistakes & Timer -->
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon" id="sudokuAvatar">🧭</div>
+          <div>
+            <div class="status-main-text" id="sudokuStatus">Solve the Grand Line Grid</div>
+            <div class="status-sub-text">Mistakes: <span id="mistakeVal" style="color: #ef4444; font-weight: 800;">0/3</span></div>
+          </div>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 800; color: var(--text-gold);" id="sudokuTimer">
+          00:00
+        </div>
+      </div>
+
+      <!-- Hint Reasoning Card -->
+      <div class="hint-card" id="hintCard" style="margin-bottom: 12px;">
+        <div class="hint-header">
+          <span id="hintTitle">💡 Log Pose Hint</span>
+          <button onclick="dismissHint()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;">✕</button>
+        </div>
+        <p id="hintText" style="color: var(--text-main); margin-bottom: 6px;"></p>
+        <button class="action-btn" onclick="applyHint()" style="padding: 4px 10px; font-size: 0.72rem; background: var(--accent-gold); color: #000; font-weight:800;">
+          Apply Hint Digit
+        </button>
+      </div>
+
+      <!-- 9x9 Sudoku Board -->
+      <div class="sudoku-grid" id="sudokuBoardGrid" style="margin-bottom: 12px;"></div>
+
+      <!-- Toolbar Actions -->
+      <div class="actions-grid" style="margin-bottom: 12px;">
+        <button class="action-btn" id="btnUndo" onclick="sudokuUndo()" title="Undo (Ctrl+Z / U)">
+          <span>↩️</span>
+          <span>Undo</span>
+        </button>
+        <button class="action-btn" id="btnRedo" onclick="sudokuRedo()" title="Redo (Ctrl+Y)">
+          <span>↪️</span>
+          <span>Redo</span>
+        </button>
+        <button class="action-btn" id="btnErase" onclick="sudokuErase()" title="Erase (Del / Backspace)">
+          <span>🧹</span>
+          <span>Erase</span>
+        </button>
+        <button class="action-btn" id="btnNotes" onclick="toggleNotesMode()" title="Notes (N)">
+          <span>✏️</span>
+          <span id="notesModeLabel">Notes</span>
+        </button>
+        <button class="action-btn" id="btnHint" onclick="requestSmartHint()" title="Smart Hint (H)">
+          <span>💡</span>
+          <span>Hint</span>
+        </button>
+        <button class="action-btn" id="btnAutoNote" onclick="sudokuAutoNotes()" title="Auto-Fill Candidates">
+          <span>✨</span>
+          <span>Auto-Note</span>
+        </button>
+      </div>
+
+      <!-- Number Pad (1-9) -->
+      <div class="sudoku-numpad" id="sudokuNumPad" style="margin-bottom: 12px;"></div>
+
+      <!-- New Game & Restart Actions -->
+      <div class="actions-grid ttt-actions" style="margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-secondary" onclick="restartSudoku()">
+          <span>🔄 Restart Puzzle</span>
+        </button>
+        <button class="action-btn btn-pirate-primary" onclick="initNewSudokuGame(true)">
+          <span>🗺️ New Journey</span>
+        </button>
+      </div>
+
+      <!-- Sudoku Stats -->
+      <div class="bento-card stats-footer">
+        <div>Solved: <strong id="sudokuWonCount" style="color: var(--text-gold)">0</strong></div>
+        <div>Best Time: <strong id="sudokuBestTime" style="color: var(--color-o)">--:--</strong></div>
+        <div>Bounty Multiplier: <strong style="color: var(--color-x)">+100M</strong></div>
+      </div>
     </div>
 
-    <!-- Controls -->
-    <div class="actions-grid">
-      <button class="action-btn btn-pirate-secondary" onclick="toggleMode()">
-        <span id="modeBtnText">👥 Switch to PvP</span>
-      </button>
-      <button class="action-btn btn-pirate-primary" onclick="resetGame(true)">
-        <span>⚔️ Set Sail (New)</span>
-      </button>
-    </div>
-
-    <!-- Win/Loss Stats -->
-    <div class="bento-card stats-footer">
-      <div>Straw Hat Wins: <strong id="winsX" style="color: var(--color-x)">0</strong></div>
-      <div>AI Wins: <strong id="winsO" style="color: var(--color-o)">0</strong></div>
-      <div>Draws: <strong id="tiesCount">0</strong></div>
-    </div>
   </div>
 
   <script>
     // -------------------------------------------------------------
-    // Web Audio Synthesizer (One Piece Clashes & Fanfares)
+    // Web Audio Synthesizer (One Piece Audio Engine)
     // -------------------------------------------------------------
     let audioCtx = null;
     let soundEnabled = true;
@@ -724,9 +1044,9 @@
     }
 
     function soundVictory() {
-      const notes = [523.25, 659.25, 783.99, 1046.50];
+      const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
       notes.forEach((freq, idx) => {
-        setTimeout(() => playTone(freq, 'triangle', 0.3, 0.25), idx * 110);
+        setTimeout(() => playTone(freq, 'triangle', 0.35, 0.25), idx * 110);
       });
     }
 
@@ -735,17 +1055,42 @@
       setTimeout(() => playTone(180, 'sawtooth', 0.4, 0.2), 160);
     }
 
+    function soundPlace() {
+      playTone(440, 'triangle', 0.08, 0.2);
+      setTimeout(() => playTone(660, 'sine', 0.06, 0.15), 30);
+    }
+
+    function soundNote() {
+      playTone(987.77, 'sine', 0.04, 0.1);
+    }
+
+    function soundErase() {
+      playTone(280, 'sine', 0.08, 0.15);
+    }
+
+    function soundHint() {
+      const notes = [587.33, 739.99, 880.00, 1174.66];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 'sine', 0.12, 0.15), idx * 50);
+      });
+    }
+
     function toggleAudio() {
       soundEnabled = !soundEnabled;
       document.getElementById('soundBtn').textContent = soundEnabled ? '🔊' : '🔇';
       if (soundEnabled) playTone(500, 'triangle', 0.1);
     }
 
+    function changeTheme(themeName) {
+      document.body.setAttribute('data-theme', themeName);
+      localStorage.setItem('zenith_theme', themeName);
+    }
+
     // -------------------------------------------------------------
-    // Bounty Ladder System
+    // Bounty Ladder System (Shared Across All Games)
     // -------------------------------------------------------------
     const BOUNTY_TIERS = [
-      { amount: "30,000,000", rank: "East Blue Rookie" },
+      { amount: "30,000,000", rank: "East Blue Rookie 👒" },
       { amount: "100,000,000", rank: "Super Rookie 💥" },
       { amount: "300,000,000", rank: "Grand Line Captain ⚔️" },
       { amount: "500,000,000", rank: "Warlord Level ⚡" },
@@ -754,7 +1099,7 @@
       { amount: "5,564,800,000", rank: "PIRATE KING 👑🏴‍☠️" }
     ];
 
-    let currentBountyIndex = 0;
+    let currentBountyIndex = parseInt(localStorage.getItem('zenith_bounty_idx') || '0', 10);
 
     function updateBountyDisplay() {
       const tier = BOUNTY_TIERS[Math.min(currentBountyIndex, BOUNTY_TIERS.length - 1)];
@@ -762,28 +1107,52 @@
       document.getElementById('bountyRank').textContent = tier.rank;
     }
 
+    function increaseBounty(steps = 1) {
+      currentBountyIndex = Math.min(currentBountyIndex + steps, BOUNTY_TIERS.length - 1);
+      localStorage.setItem('zenith_bounty_idx', currentBountyIndex);
+      updateBountyDisplay();
+      triggerConfetti();
+    }
+
     // -------------------------------------------------------------
-    // 100% Loop-Free Multi-Level Game Engine & Recursive Minimax AI
+    // Master Game Switcher
+    // -------------------------------------------------------------
+    let activeGame = 'ttt';
+
+    function switchGame(game) {
+      activeGame = game;
+      document.getElementById('tabTTT').classList.toggle('active', game === 'ttt');
+      document.getElementById('tabSudoku').classList.toggle('active', game === 'sudoku');
+      document.getElementById('tttView').style.display = game === 'ttt' ? 'block' : 'none';
+      document.getElementById('sudokuView').style.display = game === 'sudoku' ? 'block' : 'none';
+
+      if (game === 'sudoku' && sudokuState.board.length === 0) {
+        initNewSudokuGame(false);
+      }
+      playTone(520, 'triangle', 0.08, 0.15);
+    }
+
+    // -------------------------------------------------------------
+    // 100% Loop-Free Multi-Level TIC-TAC-TOE Engine
     // -------------------------------------------------------------
     const INITIAL_BOARD = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-    let gameState = {
+    let tttState = {
       board: [...INITIAL_BOARD],
       currentPlayer: "X",
       mode: "ai",
       difficulty: "impossible",
       active: true,
-      winningCells: [],
       stats: { x: 0, o: 0, ties: 0 }
     };
 
     const AI_TITLES = {
-      easy: { name: "Buggy the Clown AI 🤡", avatar: "🤡" },
+      easy: { name: "Buggy AI 🤡", avatar: "🤡" },
       medium: { name: "Crocodile AI 🐊", avatar: "🐊" },
-      hard: { name: "Admiral Kizaru AI ⚡", avatar: "⚡" },
+      hard: { name: "Kizaru AI ⚡", avatar: "⚡" },
       impossible: { name: "Vegapunk AI 🧠", avatar: "🧠" }
     };
 
-    function checkWinner(b) {
+    function checkTTTWinner(b) {
       if (b[0] !== " " && b[0] === b[1] && b[1] === b[2]) return { winner: b[0], line: [0, 1, 2] };
       if (b[3] !== " " && b[3] === b[4] && b[4] === b[5]) return { winner: b[3], line: [3, 4, 5] };
       if (b[6] !== " " && b[6] === b[7] && b[7] === b[8]) return { winner: b[6], line: [6, 7, 8] };
@@ -795,55 +1164,44 @@
       return null;
     }
 
-    function isBoardFull(b, idx = 0) {
+    function isTTTBoardFull(b, idx = 0) {
       if (idx === 9) return true;
       if (b[idx] === " ") return false;
-      return isBoardFull(b, idx + 1);
+      return isTTTBoardFull(b, idx + 1);
     }
 
-    function getAvailableMoves(b, idx = 0) {
+    function getAvailableTTTMoves(b, idx = 0) {
       if (idx === 9) return [];
-      const tail = getAvailableMoves(b, idx + 1);
+      const tail = getAvailableTTTMoves(b, idx + 1);
       return b[idx] === " " ? [idx, ...tail] : tail;
     }
 
-    function makeMove(b, pos, player) {
+    function makeTTTMove(b, pos, player) {
       return [...b.slice(0, pos), player, ...b.slice(pos + 1)];
     }
 
     function evaluateMovesRecursive(b, depth, isMax, moves, bestVal, bestMove) {
       if (moves.length === 0) return { score: bestVal, move: bestMove };
-
       const pos = moves[0];
-      const nextBoard = makeMove(b, pos, isMax ? "O" : "X");
-      const result = minimax(nextBoard, depth + 1, !isMax);
+      const nextBoard = makeTTTMove(b, pos, isMax ? "O" : "X");
+      const result = minimaxTTT(nextBoard, depth + 1, !isMax);
 
       let newBestVal = bestVal;
       let newBestMove = bestMove;
-
       if (isMax) {
-        if (result.score > bestVal) {
-          newBestVal = result.score;
-          newBestMove = pos;
-        }
+        if (result.score > bestVal) { newBestVal = result.score; newBestMove = pos; }
       } else {
-        if (result.score < bestVal) {
-          newBestVal = result.score;
-          newBestMove = pos;
-        }
+        if (result.score < bestVal) { newBestVal = result.score; newBestMove = pos; }
       }
-
       return evaluateMovesRecursive(b, depth, isMax, moves.slice(1), newBestVal, newBestMove);
     }
 
-    function minimax(b, depth, isMax) {
-      const winData = checkWinner(b);
+    function minimaxTTT(b, depth, isMax) {
+      const winData = checkTTTWinner(b);
       if (winData) return { score: winData.winner === "O" ? (10 - depth) : (depth - 10), move: null };
-      if (isBoardFull(b)) return { score: 0, move: null };
-
-      const moves = getAvailableMoves(b);
+      if (isTTTBoardFull(b)) return { score: 0, move: null };
+      const moves = getAvailableTTTMoves(b);
       if (moves.length === 0) return { score: 0, move: null };
-
       const initialVal = isMax ? -1000 : 1000;
       return evaluateMovesRecursive(b, depth, isMax, moves, initialVal, moves[0]);
     }
@@ -851,230 +1209,719 @@
     function findImmediateWinRecursive(b, moves, player) {
       if (moves.length === 0) return null;
       const pos = moves[0];
-      const nextBoard = makeMove(b, pos, player);
-      const win = checkWinner(nextBoard);
+      const nextBoard = makeTTTMove(b, pos, player);
+      const win = checkTTTWinner(nextBoard);
       if (win && win.winner === player) return pos;
       return findImmediateWinRecursive(b, moves.slice(1), player);
     }
 
     function getMultiLevelAiMove(b, difficulty) {
-      const moves = getAvailableMoves(b);
+      const moves = getAvailableTTTMoves(b);
       if (moves.length === 0) return null;
 
       if (difficulty === "easy") {
-        if (Math.random() < 0.75) {
-          return moves[Math.floor(Math.random() * moves.length)];
-        }
-        return minimax(b, 0, true).move;
+        if (Math.random() < 0.75) return moves[Math.floor(Math.random() * moves.length)];
+        return minimaxTTT(b, 0, true).move;
       }
-
       if (difficulty === "medium") {
         const winMove = findImmediateWinRecursive(b, moves, "O");
         if (winMove !== null) return winMove;
         const blockMove = findImmediateWinRecursive(b, moves, "X");
         if (blockMove !== null) return blockMove;
-        if (Math.random() < 0.40) {
-          return moves[Math.floor(Math.random() * moves.length)];
-        }
-        return minimax(b, 0, true).move;
+        if (Math.random() < 0.40) return moves[Math.floor(Math.random() * moves.length)];
+        return minimaxTTT(b, 0, true).move;
       }
-
       if (difficulty === "hard") {
-        if (Math.random() < 0.12) {
-          return moves[Math.floor(Math.random() * moves.length)];
-        }
-        return minimax(b, 0, true).move;
+        if (Math.random() < 0.12) return moves[Math.floor(Math.random() * moves.length)];
+        return minimaxTTT(b, 0, true).move;
       }
-
-      // Default / Impossible
-      return minimax(b, 0, true).move;
+      return minimaxTTT(b, 0, true).move;
     }
 
-    // -------------------------------------------------------------
-    // UI Renderers & Interactions
-    // -------------------------------------------------------------
-    function renderCells(idx = 0) {
+    function renderTTTCells(idx = 0) {
       if (idx === 9) return;
-      const cellEl = document.querySelectorAll(".grid-slot")[idx];
-      const val = gameState.board[idx];
-      
+      const cellEl = document.querySelectorAll("#boardGrid .grid-slot")[idx];
+      const val = tttState.board[idx];
       cellEl.textContent = val === " " ? "" : val;
       cellEl.className = "grid-slot";
-      if (val === "X") cellEl.classList.add("x", "occupied");
-      if (val === "O") cellEl.classList.add("o", "occupied");
-      if (gameState.winningCells.includes(idx)) cellEl.classList.add("haki-winning");
-
-      renderCells(idx + 1);
+      if (val !== " ") {
+        cellEl.classList.add("occupied", val.toLowerCase());
+      }
+      renderTTTCells(idx + 1);
     }
 
-    function updateScoreboard() {
-      document.getElementById("winsX").textContent = gameState.stats.x;
-      document.getElementById("winsO").textContent = gameState.stats.o;
-      document.getElementById("tiesCount").textContent = gameState.stats.ties;
-    }
+    function handleTTTCellClick(index) {
+      if (!tttState.active || tttState.board[index] !== " ") return;
+      if (tttState.mode === "ai" && tttState.currentPlayer === "O") return;
 
-    function updateStatusDisplay() {
-      const avatar = document.getElementById("statusAvatar");
-      const title = document.getElementById("statusTitle");
-      const sub = document.getElementById("statusSub");
-      const badge = document.getElementById("modeBadge");
+      tttState.board = makeTTTMove(tttState.board, index, tttState.currentPlayer);
+      soundClash(tttState.currentPlayer);
+      renderTTTCells();
 
-      const aiInfo = AI_TITLES[gameState.difficulty] || AI_TITLES.impossible;
-      badge.textContent = gameState.mode === "ai" ? ("vs " + aiInfo.name) : "👥 2-Player Local";
-
-      const winData = checkWinner(gameState.board);
+      const winData = checkTTTWinner(tttState.board);
       if (winData) {
-        if (winData.winner === 'X') {
-          title.textContent = "Straw Hats Conquer! 🏴‍☠️";
-          sub.textContent = "Your bounty has escalated!";
-          avatar.textContent = "👑";
-          avatar.className = "pirate-icon x";
-        } else {
-          title.textContent = aiInfo.name + " Wins! ⚓";
-          sub.textContent = "Grand Line defense prevailed!";
-          avatar.textContent = aiInfo.avatar;
-          avatar.className = "pirate-icon o";
+        handleTTTGameOver(winData.winner, winData.line);
+        return;
+      }
+      if (isTTTBoardFull(tttState.board)) {
+        handleTTTGameOver("Tie");
+        return;
+      }
+
+      tttState.currentPlayer = tttState.currentPlayer === "X" ? "O" : "X";
+      updateTTTStatus();
+
+      if (tttState.mode === "ai" && tttState.currentPlayer === "O" && tttState.active) {
+        setTimeout(triggerTTTAiMove, 360);
+      }
+    }
+
+    function triggerTTTAiMove() {
+      if (!tttState.active) return;
+      const aiMove = getMultiLevelAiMove(tttState.board, tttState.difficulty);
+      if (aiMove !== null && tttState.board[aiMove] === " ") {
+        tttState.board = makeTTTMove(tttState.board, aiMove, "O");
+        soundClash("O");
+        renderTTTCells();
+
+        const winData = checkTTTWinner(tttState.board);
+        if (winData) {
+          handleTTTGameOver(winData.winner, winData.line);
+          return;
         }
-        return;
-      }
-
-      if (isBoardFull(gameState.board)) {
-        title.textContent = "Deadlock on the Sea! 🤝";
-        sub.textContent = "Both crews fought to a standstill.";
-        avatar.textContent = "⚔️";
-        avatar.className = "pirate-icon";
-        return;
-      }
-
-      if (gameState.mode === "ai" && gameState.currentPlayer === "O") {
-        title.textContent = aiInfo.name + " Calculating...";
-        sub.textContent = "Plotting next move across the Grand Line";
-        avatar.textContent = aiInfo.avatar;
-        avatar.className = "pirate-icon o";
-      } else {
-        title.textContent = gameState.mode === "ai" ? "Luffy's Turn (X)" : `Player ${gameState.currentPlayer}'s Turn`;
-        sub.textContent = "Claim an open sea quadrant";
-        avatar.textContent = gameState.currentPlayer === "X" ? "👒" : aiInfo.avatar;
-        avatar.className = `pirate-icon ${gameState.currentPlayer.toLowerCase()}`;
+        if (isTTTBoardFull(tttState.board)) {
+          handleTTTGameOver("Tie");
+          return;
+        }
+        tttState.currentPlayer = "X";
+        updateTTTStatus();
       }
     }
 
-    function handleCellClick(pos) {
-      if (!gameState.active || gameState.board[pos] !== " ") return;
-      if (gameState.mode === "ai" && gameState.currentPlayer === "O") return;
+    function handleTTTGameOver(winner, line = []) {
+      tttState.active = false;
+      const statusTitle = document.getElementById("statusTitle");
+      const statusSub = document.getElementById("statusSub");
 
-      initAudio();
-
-      // 1. Move applied
-      gameState.board = makeMove(gameState.board, pos, gameState.currentPlayer);
-      soundClash(gameState.currentPlayer);
-      
-      const winData = checkWinner(gameState.board);
-      if (winData) {
-        gameState.active = false;
-        gameState.winningCells = winData.line;
-        gameState.stats[winData.winner.toLowerCase()] += 1;
-        if (winData.winner === 'X') {
-          currentBountyIndex += (gameState.difficulty === 'impossible' ? 2 : 1);
-          updateBountyDisplay();
+      if (winner === "Tie") {
+        tttState.stats.ties++;
+        document.getElementById("tiesCount").textContent = tttState.stats.ties;
+        statusTitle.textContent = "Draw! Territory Contested ⚔️";
+        statusSub.textContent = "Neither pirate yields an inch";
+        soundDefeat();
+      } else {
+        if (winner === "X") {
+          tttState.stats.x++;
+          document.getElementById("winsX").textContent = tttState.stats.x;
+          statusTitle.textContent = "🎉 Straw Hat Victory!";
+          statusSub.textContent = "Bounty increases!";
           soundVictory();
-          launchPirateConfetti();
+          increaseBounty(1);
         } else {
+          tttState.stats.o++;
+          document.getElementById("winsO").textContent = tttState.stats.o;
+          statusTitle.textContent = `${AI_TITLES[tttState.difficulty].name} Wins!`;
+          statusSub.textContent = "You were forced to retreat";
           soundDefeat();
         }
-        updateScoreboard();
-        renderCells();
-        updateStatusDisplay();
-        return;
-      }
 
-      if (isBoardFull(gameState.board)) {
-        gameState.active = false;
-        gameState.stats.ties += 1;
-        updateScoreboard();
-        renderCells();
-        updateStatusDisplay();
-        return;
-      }
-
-      // 2. Next turn / AI trigger
-      if (gameState.mode === "pvp") {
-        gameState.currentPlayer = gameState.currentPlayer === "X" ? "O" : "X";
-        renderCells();
-        updateStatusDisplay();
-      } else if (gameState.mode === "ai") {
-        gameState.currentPlayer = "O";
-        renderCells();
-        updateStatusDisplay();
-        setTimeout(executeAiTurn, 250);
+        line.forEach(idx => {
+          document.querySelectorAll("#boardGrid .grid-slot")[idx]?.classList.add("haki-winning");
+        });
       }
     }
 
-    function executeAiTurn() {
-      if (!gameState.active) return;
-      const bestMove = getMultiLevelAiMove(gameState.board, gameState.difficulty);
+    function updateTTTStatus() {
+      const statusAvatar = document.getElementById("statusAvatar");
+      const statusTitle = document.getElementById("statusTitle");
+      const statusSub = document.getElementById("statusSub");
 
-      if (bestMove !== null && bestMove !== undefined) {
-        gameState.board = makeMove(gameState.board, bestMove, "O");
-        soundClash("O");
-      }
-
-      const winData = checkWinner(gameState.board);
-      if (winData) {
-        gameState.active = false;
-        gameState.winningCells = winData.line;
-        gameState.stats.o += 1;
-        updateScoreboard();
-        soundDefeat();
-      } else if (isBoardFull(gameState.board)) {
-        gameState.active = false;
-        gameState.stats.ties += 1;
-        updateScoreboard();
+      if (tttState.currentPlayer === "X") {
+        statusAvatar.textContent = "👒";
+        statusAvatar.className = "pirate-icon x";
+        statusTitle.textContent = "Luffy's Turn";
+        statusSub.textContent = "Claim a territory on the Grand Line";
       } else {
-        gameState.currentPlayer = "X";
+        statusAvatar.textContent = tttState.mode === "ai" ? AI_TITLES[tttState.difficulty].avatar : "🏴‍☠️";
+        statusAvatar.className = "pirate-icon o";
+        statusTitle.textContent = tttState.mode === "ai" ? `${AI_TITLES[tttState.difficulty].name} Thinking...` : "Player O's Turn";
+        statusSub.textContent = "Defend or strike back";
       }
-
-      renderCells();
-      updateStatusDisplay();
     }
 
-    function changeDifficulty(val) {
-      gameState.difficulty = val;
-      updateStatusDisplay();
-      resetGame(false);
+    function changeTTTDifficulty(val) {
+      tttState.difficulty = val;
+      document.getElementById("modeBadge").textContent = `vs ${AI_TITLES[val].name}`;
+      resetTTTGame(true);
     }
 
-    function toggleMode() {
-      gameState.mode = gameState.mode === "ai" ? "pvp" : "ai";
-      document.getElementById("modeBtnText").textContent = gameState.mode === "ai" ? "👥 Switch to PvP" : "🤖 Switch to AI";
-      updateStatusDisplay();
-      resetGame(false);
+    function toggleTTTMode() {
+      tttState.mode = tttState.mode === "ai" ? "pvp" : "ai";
+      document.getElementById("modeBtnText").textContent = tttState.mode === "ai" ? "👥 Switch to PvP" : "🤖 Play vs AI";
+      document.getElementById("modeBadge").textContent = tttState.mode === "ai" ? `vs ${AI_TITLES[tttState.difficulty].name}` : "Pass & Play (2P)";
+      resetTTTGame(true);
     }
 
-    function resetGame(keepBounty = true) {
-      gameState.board = [...INITIAL_BOARD];
-      gameState.currentPlayer = "X";
-      gameState.active = true;
-      gameState.winningCells = [];
-      renderCells();
-      updateStatusDisplay();
-    }
-
-    function changeTheme(themeName) {
-      document.body.setAttribute('data-theme', themeName);
-      if (themeName === 'onepiece') {
-        document.getElementById('mainTitle').textContent = "GRAND LINE TTT";
-      } else if (themeName === 'watermelon') {
-        document.getElementById('mainTitle').textContent = "WATERMELON TTT";
-      } else if (themeName === 'cyber') {
-        document.getElementById('mainTitle').textContent = "CYBER ARCADE TTT";
-      } else if (themeName === 'neobrutal') {
-        document.getElementById('mainTitle').textContent = "POP BRUTAL TTT";
-      }
+    function resetTTTGame(clearStats = false) {
+      tttState.board = [...INITIAL_BOARD];
+      tttState.currentPlayer = "X";
+      tttState.active = true;
+      renderTTTCells();
+      updateTTTStatus();
+      if (clearStats) playTone(400, 'triangle', 0.08);
     }
 
     // -------------------------------------------------------------
-    // Golden Straw Hat Confetti Fireworks
+    // FULL SUDOKU ENGINE & SOLVER
+    // -------------------------------------------------------------
+    const SEED_SUDOKU = {
+      easy: {
+        initial: [
+          [5, 3, 0, 0, 7, 0, 0, 0, 0],
+          [6, 0, 0, 1, 9, 5, 0, 0, 0],
+          [0, 9, 8, 0, 0, 0, 0, 6, 0],
+          [8, 0, 0, 0, 6, 0, 0, 0, 3],
+          [4, 0, 0, 8, 0, 3, 0, 0, 1],
+          [7, 0, 0, 0, 2, 0, 0, 0, 6],
+          [0, 6, 0, 0, 0, 0, 2, 8, 0],
+          [0, 0, 0, 4, 1, 9, 0, 0, 5],
+          [0, 0, 0, 0, 8, 0, 0, 7, 9],
+        ],
+        solution: [
+          [5, 3, 4, 6, 7, 8, 9, 1, 2],
+          [6, 7, 2, 1, 9, 5, 3, 4, 8],
+          [1, 9, 8, 3, 4, 2, 5, 6, 7],
+          [8, 5, 9, 7, 6, 1, 4, 2, 3],
+          [4, 2, 6, 8, 5, 3, 7, 9, 1],
+          [7, 1, 3, 9, 2, 4, 8, 5, 6],
+          [9, 6, 1, 5, 3, 7, 2, 8, 4],
+          [2, 8, 7, 4, 1, 9, 6, 3, 5],
+          [3, 4, 5, 2, 8, 6, 1, 7, 9],
+        ]
+      },
+      medium: {
+        initial: [
+          [0, 0, 0, 2, 6, 0, 7, 0, 1],
+          [6, 8, 0, 0, 7, 0, 0, 9, 0],
+          [1, 9, 0, 0, 0, 4, 5, 0, 0],
+          [8, 2, 0, 1, 0, 0, 0, 4, 0],
+          [0, 0, 4, 6, 0, 2, 9, 0, 0],
+          [0, 5, 0, 0, 0, 3, 0, 2, 8],
+          [0, 0, 9, 3, 0, 0, 0, 7, 4],
+          [0, 4, 0, 0, 5, 0, 0, 3, 6],
+          [7, 0, 3, 0, 1, 8, 0, 0, 0],
+        ],
+        solution: [
+          [4, 3, 5, 2, 6, 9, 7, 8, 1],
+          [6, 8, 2, 5, 7, 1, 4, 9, 3],
+          [1, 9, 7, 8, 3, 4, 5, 6, 2],
+          [8, 2, 6, 1, 9, 5, 3, 4, 7],
+          [3, 7, 4, 6, 8, 2, 9, 1, 5],
+          [9, 5, 1, 7, 4, 3, 6, 2, 8],
+          [5, 1, 9, 3, 2, 6, 8, 7, 4],
+          [2, 4, 8, 9, 5, 7, 1, 3, 6],
+          [7, 6, 3, 4, 1, 8, 2, 5, 9],
+        ]
+      },
+      hard: {
+        initial: [
+          [0, 0, 0, 6, 0, 0, 4, 0, 0],
+          [7, 0, 0, 0, 0, 3, 6, 0, 0],
+          [0, 0, 0, 0, 9, 1, 0, 8, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 5, 0, 1, 8, 0, 0, 0, 3],
+          [0, 0, 0, 3, 0, 6, 0, 4, 5],
+          [0, 4, 0, 2, 0, 0, 0, 6, 0],
+          [9, 0, 3, 0, 0, 0, 0, 0, 0],
+          [0, 2, 0, 0, 0, 0, 1, 0, 0],
+        ],
+        solution: [
+          [5, 8, 1, 6, 7, 2, 4, 3, 9],
+          [7, 9, 2, 8, 4, 3, 6, 5, 1],
+          [3, 6, 4, 5, 9, 1, 7, 8, 2],
+          [4, 3, 8, 9, 5, 7, 2, 1, 6],
+          [2, 5, 6, 1, 8, 4, 9, 7, 3],
+          [1, 7, 9, 3, 2, 6, 8, 4, 5],
+          [8, 4, 5, 2, 1, 9, 3, 6, 7],
+          [9, 1, 3, 7, 6, 8, 5, 2, 4],
+          [6, 2, 7, 4, 3, 5, 1, 9, 8],
+        ]
+      },
+      expert: {
+        initial: [
+          [0, 0, 0, 0, 0, 0, 0, 1, 2],
+          [0, 0, 0, 0, 3, 5, 0, 0, 0],
+          [0, 0, 0, 6, 0, 0, 0, 7, 0],
+          [7, 0, 0, 0, 0, 0, 3, 0, 0],
+          [0, 0, 0, 4, 0, 0, 8, 0, 0],
+          [1, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 1, 2, 0, 0, 0, 0],
+          [0, 8, 0, 0, 0, 0, 0, 4, 0],
+          [0, 5, 0, 0, 0, 0, 6, 0, 0],
+        ],
+        solution: [
+          [6, 7, 3, 8, 9, 4, 5, 1, 2],
+          [9, 1, 2, 7, 3, 5, 4, 8, 6],
+          [8, 4, 5, 6, 1, 2, 9, 7, 3],
+          [7, 9, 8, 2, 6, 1, 3, 5, 4],
+          [5, 2, 6, 4, 7, 3, 8, 9, 1],
+          [1, 3, 4, 5, 8, 9, 2, 6, 7],
+          [4, 6, 9, 1, 2, 8, 7, 3, 5],
+          [2, 8, 7, 3, 5, 6, 1, 4, 9],
+          [3, 5, 1, 9, 4, 7, 6, 2, 8],
+        ]
+      }
+    };
+
+    let sudokuState = {
+      difficulty: 'medium',
+      initial: [],
+      solution: [],
+      board: [],
+      notes: Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => [])),
+      selectedRow: 4,
+      selectedCol: 4,
+      isNotesMode: false,
+      mistakes: 0,
+      activeHint: null,
+      history: [],
+      future: [],
+      timerSeconds: 0,
+      timerActive: false,
+      timerInterval: null,
+      solvedCount: 0,
+      bestTime: null,
+    };
+
+    function transformSudokuSeed(seed) {
+      const mapping = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      for (let i = 9; i > 1; i--) {
+        const j = 1 + Math.floor(Math.random() * i);
+        [mapping[i], mapping[j]] = [mapping[j], mapping[i]];
+      }
+      return {
+        initial: seed.initial.map(row => row.map(v => (v > 0 ? mapping[v] : 0))),
+        solution: seed.solution.map(row => row.map(v => (v > 0 ? mapping[v] : 0)))
+      };
+    }
+
+    function initNewSudokuGame(sound = true) {
+      const seed = SEED_SUDOKU[sudokuState.difficulty] || SEED_SUDOKU.medium;
+      const puzzle = transformSudokuSeed(seed);
+
+      sudokuState.initial = puzzle.initial;
+      sudokuState.solution = puzzle.solution;
+      sudokuState.board = puzzle.initial.map(r => [...r]);
+      sudokuState.notes = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => []));
+      sudokuState.mistakes = 0;
+      sudokuState.selectedRow = 4;
+      sudokuState.selectedCol = 4;
+      sudokuState.activeHint = null;
+      sudokuState.history = [];
+      sudokuState.future = [];
+
+      document.getElementById('mistakeVal').textContent = `0/3`;
+      dismissHint();
+
+      // Reset timer
+      clearInterval(sudokuState.timerInterval);
+      sudokuState.timerSeconds = 0;
+      sudokuState.timerActive = true;
+      sudokuState.timerInterval = setInterval(() => {
+        if (sudokuState.timerActive) {
+          sudokuState.timerSeconds++;
+          const m = Math.floor(sudokuState.timerSeconds / 60).toString().padStart(2, '0');
+          const s = (sudokuState.timerSeconds % 60).toString().padStart(2, '0');
+          document.getElementById('sudokuTimer').textContent = `${m}:${s}`;
+        }
+      }, 1000);
+
+      renderSudokuBoard();
+      renderSudokuNumpad();
+      if (sound) playTone(440, 'triangle', 0.1);
+    }
+
+    function changeSudokuDifficulty(diff) {
+      sudokuState.difficulty = diff;
+      initNewSudokuGame(true);
+    }
+
+    function pushSudokuHistory() {
+      sudokuState.history.push({
+        board: sudokuState.board.map(r => [...r]),
+        notes: sudokuState.notes.map(r => r.map(c => [...c])),
+        mistakes: sudokuState.mistakes,
+        selectedRow: sudokuState.selectedRow,
+        selectedCol: sudokuState.selectedCol
+      });
+      sudokuState.future = [];
+    }
+
+    function sudokuUndo() {
+      if (sudokuState.history.length === 0) return;
+      const prev = sudokuState.history.pop();
+      sudokuState.future.push({
+        board: sudokuState.board.map(r => [...r]),
+        notes: sudokuState.notes.map(r => r.map(c => [...c])),
+        mistakes: sudokuState.mistakes,
+        selectedRow: sudokuState.selectedRow,
+        selectedCol: sudokuState.selectedCol
+      });
+      sudokuState.board = prev.board;
+      sudokuState.notes = prev.notes;
+      sudokuState.mistakes = prev.mistakes;
+      sudokuState.selectedRow = prev.selectedRow;
+      sudokuState.selectedCol = prev.selectedCol;
+      document.getElementById('mistakeVal').textContent = `${sudokuState.mistakes}/3`;
+      soundPlace();
+      renderSudokuBoard();
+      renderSudokuNumpad();
+    }
+
+    function sudokuRedo() {
+      if (sudokuState.future.length === 0) return;
+      const next = sudokuState.future.pop();
+      sudokuState.history.push({
+        board: sudokuState.board.map(r => [...r]),
+        notes: sudokuState.notes.map(r => r.map(c => [...c])),
+        mistakes: sudokuState.mistakes,
+        selectedRow: sudokuState.selectedRow,
+        selectedCol: sudokuState.selectedCol
+      });
+      sudokuState.board = next.board;
+      sudokuState.notes = next.notes;
+      sudokuState.mistakes = next.mistakes;
+      sudokuState.selectedRow = next.selectedRow;
+      sudokuState.selectedCol = next.selectedCol;
+      document.getElementById('mistakeVal').textContent = `${sudokuState.mistakes}/3`;
+      soundPlace();
+      renderSudokuBoard();
+      renderSudokuNumpad();
+    }
+
+    function renderSudokuBoard() {
+      const container = document.getElementById('sudokuBoardGrid');
+      container.innerHTML = '';
+
+      const selVal = (sudokuState.selectedRow !== null && sudokuState.selectedCol !== null)
+        ? sudokuState.board[sudokuState.selectedRow][sudokuState.selectedCol]
+        : 0;
+
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          const val = sudokuState.board[r][c];
+          const isGiven = sudokuState.initial[r][c] !== 0;
+          const isSelected = sudokuState.selectedRow === r && sudokuState.selectedCol === c;
+          const isCrosshair = (sudokuState.selectedRow === r || sudokuState.selectedCol === c ||
+            (Math.floor(sudokuState.selectedRow / 3) === Math.floor(r / 3) && Math.floor(sudokuState.selectedCol / 3) === Math.floor(c / 3)));
+          const isSameVal = selVal > 0 && val === selVal;
+          const isError = val !== 0 && val !== sudokuState.solution[r][c];
+          const isHint = sudokuState.activeHint && sudokuState.activeHint.row === r && sudokuState.activeHint.col === c;
+
+          const cell = document.createElement('div');
+          cell.className = 'sudoku-cell';
+          if ((c + 1) % 3 === 0 && c !== 8) cell.classList.add('block-right');
+          if ((r + 1) % 3 === 0 && r !== 8) cell.classList.add('block-bottom');
+
+          if (isGiven) cell.classList.add('given');
+          else if (val > 0) cell.classList.add('user-placed');
+
+          if (isError) cell.classList.add('error');
+          else if (isSelected) cell.classList.add('selected');
+          else if (isSameVal) cell.classList.add('same-val');
+          else if (isCrosshair) cell.classList.add('highlighted');
+
+          if (isHint) cell.classList.add('hint-target');
+
+          cell.onclick = () => {
+            sudokuState.selectedRow = r;
+            sudokuState.selectedCol = c;
+            soundPlace();
+            renderSudokuBoard();
+            renderSudokuNumpad();
+          };
+
+          if (val > 0) {
+            cell.textContent = val;
+          } else {
+            // Render Notes (Pencil marks 3x3)
+            const notesGrid = document.createElement('div');
+            notesGrid.className = 'notes-grid';
+            const cellNotes = sudokuState.notes[r][c];
+            for (let d = 1; d <= 9; d++) {
+              const noteSlot = document.createElement('div');
+              noteSlot.className = 'note-digit';
+              if (cellNotes.includes(d)) {
+                noteSlot.textContent = d;
+                if (selVal === d) noteSlot.classList.add('active-match');
+              }
+              notesGrid.appendChild(noteSlot);
+            }
+            cell.appendChild(notesGrid);
+          }
+
+          container.appendChild(cell);
+        }
+      }
+    }
+
+    function renderSudokuNumpad() {
+      const pad = document.getElementById('sudokuNumPad');
+      pad.innerHTML = '';
+
+      // Count placed digits
+      const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 };
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          const v = sudokuState.board[r][c];
+          if (v > 0) counts[v]++;
+        }
+      }
+
+      for (let d = 1; d <= 9; d++) {
+        const btn = document.createElement('button');
+        btn.className = 'numpad-btn';
+        btn.disabled = counts[d] >= 9 && !sudokuState.isNotesMode;
+        btn.innerHTML = `<span>${d}</span><span class="numpad-count">${counts[d] >= 9 ? '✓' : (9 - counts[d])}</span>`;
+        btn.onclick = () => handleSudokuInput(d);
+        pad.appendChild(btn);
+      }
+    }
+
+    function handleSudokuInput(num) {
+      if (sudokuState.selectedRow === null || sudokuState.selectedCol === null) return;
+      const r = sudokuState.selectedRow;
+      const c = sudokuState.selectedCol;
+
+      if (sudokuState.initial[r][c] !== 0) return; // Locked given clue
+
+      pushSudokuHistory();
+
+      if (sudokuState.isNotesMode) {
+        soundNote();
+        const currentNotes = sudokuState.notes[r][c];
+        if (currentNotes.includes(num)) {
+          sudokuState.notes[r][c] = currentNotes.filter(n => n !== num);
+        } else {
+          sudokuState.notes[r][c] = [...currentNotes, num].sort();
+        }
+      } else {
+        const isCorrect = sudokuState.solution[r][c] === num;
+        sudokuState.board[r][c] = num;
+
+        if (isCorrect) {
+          soundPlace();
+          // Auto remove notes in row, col, and 3x3 box
+          for (let i = 0; i < 9; i++) {
+            sudokuState.notes[r][i] = sudokuState.notes[r][i].filter(n => n !== num);
+            sudokuState.notes[i][c] = sudokuState.notes[i][c].filter(n => n !== num);
+          }
+          const br = Math.floor(r / 3) * 3;
+          const bc = Math.floor(c / 3) * 3;
+          for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+              sudokuState.notes[br + row][bc + col] = sudokuState.notes[br + row][bc + col].filter(n => n !== num);
+            }
+          }
+        } else {
+          soundDefeat();
+          sudokuState.mistakes++;
+          document.getElementById('mistakeVal').textContent = `${sudokuState.mistakes}/3`;
+          if (sudokuState.mistakes >= 3) {
+            alert('☠️ 3 Strikes reached! The Marines captured your Log Pose.');
+            restartSudoku();
+            return;
+          }
+        }
+
+        if (sudokuState.activeHint && sudokuState.activeHint.row === r && sudokuState.activeHint.col === c) {
+          dismissHint();
+        }
+
+        // Check if fully solved
+        let complete = true;
+        for (let row = 0; row < 9; row++) {
+          for (let col = 0; col < 9; col++) {
+            if (sudokuState.board[row][col] !== sudokuState.solution[row][col]) {
+              complete = false;
+              break;
+            }
+          }
+          if (!complete) break;
+        }
+
+        if (complete) {
+          sudokuState.timerActive = false;
+          soundVictory();
+          increaseBounty(2); // Double bounty upgrade for Sudoku solve!
+          sudokuState.solvedCount++;
+          document.getElementById('sudokuWonCount').textContent = sudokuState.solvedCount;
+          alert('👑 GRAND LINE SUDOKU SOLVED! Your bounty soared by +฿200,000,000!');
+        }
+      }
+
+      renderSudokuBoard();
+      renderSudokuNumpad();
+    }
+
+    function sudokuErase() {
+      if (sudokuState.selectedRow === null || sudokuState.selectedCol === null) return;
+      const r = sudokuState.selectedRow;
+      const c = sudokuState.selectedCol;
+
+      if (sudokuState.initial[r][c] !== 0) return;
+      if (sudokuState.board[r][c] === 0 && sudokuState.notes[r][c].length === 0) return;
+
+      pushSudokuHistory();
+      soundErase();
+      sudokuState.board[r][c] = 0;
+      sudokuState.notes[r][c] = [];
+      renderSudokuBoard();
+      renderSudokuNumpad();
+    }
+
+    function toggleNotesMode() {
+      sudokuState.isNotesMode = !sudokuState.isNotesMode;
+      document.getElementById('btnNotes').classList.toggle('active-toggle', sudokuState.isNotesMode);
+      playTone(550, 'triangle', 0.08);
+      renderSudokuNumpad();
+    }
+
+    function getSudokuValidCandidates(b, row, col) {
+      if (b[row][col] !== 0) return [];
+      const invalid = new Set();
+      for (let i = 0; i < 9; i++) {
+        if (b[row][i] > 0) invalid.add(b[row][i]);
+        if (b[i][col] > 0) invalid.add(b[i][col]);
+      }
+      const br = Math.floor(row / 3) * 3;
+      const bc = Math.floor(col / 3) * 3;
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          if (b[br + r][bc + c] > 0) invalid.add(b[br + r][bc + c]);
+        }
+      }
+      const valid = [];
+      for (let num = 1; num <= 9; num++) {
+        if (!invalid.has(num)) valid.push(num);
+      }
+      return valid;
+    }
+
+    function sudokuAutoNotes() {
+      pushSudokuHistory();
+      soundHint();
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          if (sudokuState.board[r][c] === 0) {
+            sudokuState.notes[r][c] = getSudokuValidCandidates(sudokuState.board, r, c);
+          }
+        }
+      }
+      renderSudokuBoard();
+    }
+
+    function requestSmartHint() {
+      // Find naked single or logical step
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          if (sudokuState.board[r][c] === 0) {
+            const cands = getSudokuValidCandidates(sudokuState.board, r, c);
+            if (cands.length === 1) {
+              const num = cands[0];
+              sudokuState.activeHint = { row: r, col: c, value: num };
+              sudokuState.selectedRow = r;
+              sudokuState.selectedCol = c;
+              showHintUI(`Naked Single: Row ${r+1}, Col ${c+1} can ONLY be ${num}! (All other digits 1-9 are blocked).`);
+              return;
+            }
+          }
+        }
+      }
+
+      // Fallback hint
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          if (sudokuState.board[r][c] === 0) {
+            const sol = sudokuState.solution[r][c];
+            sudokuState.activeHint = { row: r, col: c, value: sol };
+            sudokuState.selectedRow = r;
+            sudokuState.selectedCol = c;
+            showHintUI(`Log Pose Navigation: Row ${r+1}, Col ${c+1} has key digit ${sol}.`);
+            return;
+          }
+        }
+      }
+    }
+
+    function showHintUI(text) {
+      soundHint();
+      document.getElementById('hintText').textContent = text;
+      document.getElementById('hintCard').classList.add('show');
+      renderSudokuBoard();
+    }
+
+    function dismissHint() {
+      sudokuState.activeHint = null;
+      document.getElementById('hintCard').classList.remove('show');
+      renderSudokuBoard();
+    }
+
+    function applyHint() {
+      if (sudokuState.activeHint) {
+        handleSudokuInput(sudokuState.activeHint.value);
+        dismissHint();
+      }
+    }
+
+    function restartSudoku() {
+      sudokuState.board = sudokuState.initial.map(r => [...r]);
+      sudokuState.notes = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => []));
+      sudokuState.mistakes = 0;
+      sudokuState.history = [];
+      sudokuState.future = [];
+      document.getElementById('mistakeVal').textContent = '0/3';
+      dismissHint();
+      renderSudokuBoard();
+      renderSudokuNumpad();
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (activeGame === 'sudoku') {
+        if (e.key >= '1' && e.key <= '9') {
+          handleSudokuInput(parseInt(e.key, 10));
+        } else if (e.key === 'Backspace' || e.key === 'Delete') {
+          sudokuErase();
+        } else if (e.key.toLowerCase() === 'n') {
+          toggleNotesMode();
+        } else if (e.key.toLowerCase() === 'h') {
+          requestSmartHint();
+        } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+          e.preventDefault();
+          sudokuUndo();
+        } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+          e.preventDefault();
+          sudokuRedo();
+        } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+          let r = sudokuState.selectedRow;
+          let c = sudokuState.selectedCol;
+          if (e.key === 'ArrowUp') r = Math.max(0, r - 1);
+          if (e.key === 'ArrowDown') r = Math.min(8, r + 1);
+          if (e.key === 'ArrowLeft') c = Math.max(0, c - 1);
+          if (e.key === 'ArrowRight') c = Math.min(8, c + 1);
+          sudokuState.selectedRow = r;
+          sudokuState.selectedCol = c;
+          soundPlace();
+          renderSudokuBoard();
+          renderSudokuNumpad();
+        }
+      }
+    });
+
+    // -------------------------------------------------------------
+    // Canvas Confetti / Particle Haki
     // -------------------------------------------------------------
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
@@ -1087,52 +1934,43 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    function launchPirateConfetti() {
-      const colors = ['#f59e0b', '#dc2626', '#fbbf24', '#ffffff', '#ef4444'];
-      particles = Array.from({ length: 80 }, () => ({
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        vx: (Math.random() - 0.5) * 16,
-        vy: (Math.random() - 0.7) * 16,
-        size: Math.random() * 8 + 4,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        alpha: 1,
-        decay: Math.random() * 0.02 + 0.015,
-        rotation: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 12
-      }));
-      animateConfetti();
+    function triggerConfetti() {
+      for (let i = 0; i < 70; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.5) * 14 - 3,
+          color: ['#f59e0b', '#ef4444', '#38bdf8', '#10b981', '#ffffff'][Math.floor(Math.random() * 5)],
+          size: Math.random() * 6 + 3,
+          life: 80
+        });
+      }
     }
 
-    function animateConfetti() {
-      if (particles.length === 0) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        return;
-      }
+    function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
+      particles.forEach((p, idx) => {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.35;
-        p.alpha -= p.decay;
-        p.rotation += p.rotSpeed;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
+        p.vy += 0.2;
+        p.life--;
         ctx.fillStyle = p.color;
-        ctx.globalAlpha = Math.max(0, p.alpha);
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-        ctx.restore();
+        ctx.fillRect(p.x, p.y, p.size, p.size);
       });
-
-      particles = particles.filter(p => p.alpha > 0);
-      requestAnimationFrame(animateConfetti);
+      particles = particles.filter(p => p.life > 0);
+      requestAnimationFrame(animateParticles);
     }
+    animateParticles();
 
-    // Init display
+    // -------------------------------------------------------------
+    // Init Setup
+    // -------------------------------------------------------------
+    const savedTheme = localStorage.getItem('zenith_theme') || 'onepiece';
+    changeTheme(savedTheme);
+    document.getElementById('themeSelector').value = savedTheme;
     updateBountyDisplay();
-    resetGame();
+    resetTTTGame(false);
   </script>
 </body>
 </html>

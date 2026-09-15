@@ -22,10 +22,18 @@ The project includes an **AST (Abstract Syntax Tree) validator** that programmat
 
 ## Features
 
-- **Multiple Game Modes**:
-  - **2-Player (PvP)**: Play locally with a friend in the terminal or GUI.
-  - **Player vs AI**: Challenge an unbeatable recursive **Minimax AI**.
+- **🌐 Grand Line Web Arcade (`index.html`)**:
+  - **Master Game Hub**: Switch seamlessly between **Tic-Tac-Toe** and **Grand Line Sudoku (4 Difficulty Levels)**.
+  - **4 Sudoku Tiers**: East Blue (Easy • ~40 clues), Grand Line (Medium • ~32 clues), New World (Hard • ~27 clues), and Pirate King (Expert • ~23 clues).
+  - **Sudoku Power Tools**: 3×3 Pencil Notes mode, auto-removal on placement, one-click Auto-Notes, Log Pose Smart Hints, undo/redo, timer, and mistakes counter.
+  - **Shared Bounty Ladder**: Win battles or solve puzzles to climb from ฿30,000,000 (Rookie) up to ฿5,564,800,000 (PIRATE KING).
+  - **4 Visual Themes**: One Piece (Grand Line), Watermelon Cyber, Cyber Arcade, and Neo-Brutalist Pop.
+  - **Tactile Web Audio Synthesizer**: Custom synthesized clashes, tile placements, note taps, and victory fanfares.
+- **Multiple Tic-Tac-Toe Game Modes**:
+  - **2-Player (PvP)**: Play locally with a friend in the terminal, GUI, or web browser.
+  - **Multi-Level AI**: Easy (Buggy), Medium (Crocodile), Hard (Kizaru), and Pirate King (unbeatable recursive Minimax AI).
 - **Multiple Interfaces**:
+  - **Web Single-Page App**: Beautiful, zero-dependency `index.html` playable anywhere.
   - **Terminal CLI**: Fast, interactive, ASCII-rendered interface with input validation.
   - **Desktop GUI**: Clean, event-driven desktop window powered by Tkinter.
 - **Recursive Minimax AI**:
@@ -33,7 +41,7 @@ The project includes an **AST (Abstract Syntax Tree) validator** that programmat
 - **Zero-Loop AST Verification**:
   - Automated test suite using Python's `ast` parser to verify compliance across all source files.
 - **Zero External Dependencies**:
-  - Built purely with Python Standard Library (`tkinter`, `unittest`, `ast`, `sys`, `os`).
+  - Built purely with Python Standard Library (`tkinter`, `unittest`, `ast`, `sys`, `os`) & vanilla web technologies.
 
 ---
 
