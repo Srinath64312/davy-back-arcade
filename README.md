@@ -1,6 +1,6 @@
-# ⚡ Grand Line Arcade (`grand-line-arcade`)
+# ☠️ Davy Back Arcade (`davy-back-arcade`)
 
-> A versatile, offline multi-game gaming hub & Python zero-loop showcase featuring **Loopless Tic-Tac-Toe**, **Sudoku**, **Ludo Royale Mini**, **Gravity Drop-Toe**, and **Dots & Boxes Chaos**.
+> The ultimate One Piece-inspired pirate gaming arena & Python zero-loop showcase! Featuring **Loopless Tic-Tac-Toe**, **Grand Line Sudoku**, **Ludo Royale Mini**, **Gravity Drop-Toe**, and **Dots & Boxes Chaos**.
 
 ---
 
