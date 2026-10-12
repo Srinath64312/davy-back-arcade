@@ -10,19 +10,26 @@ An ultra-sleek, zero-dependency offline web arcade playable anywhere:
 
 1. **⚔️ Loopless Tic-Tac-Toe**:
    - Multi-Level AI: Easy (Buggy), Medium (Crocodile), Hard (Kizaru), and Pirate King (unbeatable Minimax AI).
-   - Local PvP 2-player battles.
-   - 100% loop-free architecture with AST test suite.
+   - Local PvP 2-player battles with 100% loop-free AST verified engine.
 2. **🧩 Grand Line Sudoku**:
    - 4 Tiers: East Blue (Easy), Grand Line (Medium), New World (Hard), and Pirate King (Expert).
    - Pencil notes mode, auto-notes generator, Log Pose smart hints, timer, and mistakes counter.
-3. **🎲 Ludo Royale Mini**:
+3. **💰 Higher or Lower (Bounty Clash)**:
+   - Compare two pirates' bounties from a roster of 28 characters (Chopper up to Roger).
+   - Streak tracker with automatic Bounty Ladder milestones.
+4. **🎭 Impostor (Odd One Out)**:
+   - 4 pirate cards appear sharing a hidden secret attribute (Haki types, Devil Fruit classes, Origin Blues, Warlord status, Will of D).
+   - Tap the impostor that breaks the rule!
+5. **❓ Emoji Riddle**:
+   - Decipher emojis to deduce iconic characters (e.g., 🍖 👒 🥊 $\rightarrow$ Luffy; 🍊 🧭 ⚡ $\rightarrow$ Nami).
+6. **🎲 Ludo Royale Mini**:
    - Fast-paced 2-player arcade edition (Luffy Red vs. Zoro Green).
    - Animated 3D dice roll (roll 6 to deploy from base and earn bonus rolls).
    - Capture mechanics and Star (★) safe zones.
-4. **🌪️ Gravity Drop-Toe**:
+7. **🌪️ Gravity Drop-Toe**:
    - 3×3 board physics where pieces drop downward.
    - Players can choose to place a mark OR rotate the entire board 90° to trigger cascades!
-5. **⚡ Dots & Boxes Chaos**:
+8. **⚡ Dots & Boxes Chaos**:
    - Classic territory-capturing puzzle with dynamic line clicks, extra turns for boxes completed, and score trackers.
 
 ### 🌟 Shared Arcade Features:

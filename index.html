@@ -1007,6 +1007,182 @@
     }
     .d-box-p1 { background: var(--color-x-bg); color: var(--color-x); }
     .d-box-p2 { background: var(--color-o-bg); color: var(--color-o); }
+
+    /* =============================================================
+       HIGHER OR LOWER CSS
+    ============================================================= */
+    .hl-arena {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    .hl-card {
+      background: rgba(15, 20, 32, 0.9);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease, border-color 0.2s;
+    }
+    .hl-avatar {
+      font-size: 3.5rem;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+    }
+    .hl-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .hl-crew {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .hl-bounty-box {
+      font-size: 1.35rem;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid var(--accent-gold);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      letter-spacing: 1px;
+    }
+    .hl-btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .hl-btn {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .hl-btn-higher {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+    }
+    .hl-btn-lower {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+    }
+    .hl-btn:hover { transform: translateY(-2px) scale(1.02); }
+    .hl-btn:active { transform: scale(0.96); }
+
+    /* =============================================================
+       IMPOSTOR (ODD ONE OUT) CSS
+    ============================================================= */
+    .imp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .imp-card {
+      background: var(--cell-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .imp-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-gold);
+      background: rgba(255,255,255,0.08);
+    }
+    .imp-avatar {
+      font-size: 2.8rem;
+      margin-bottom: 6px;
+    }
+    .imp-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .imp-trait {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .imp-correct {
+      border-color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.25) !important;
+      animation: slashPop 0.3s ease;
+    }
+    .imp-wrong {
+      border-color: #ef4444 !important;
+      background: rgba(239, 68, 68, 0.25) !important;
+      animation: slashPop 0.3s ease;
+    }
+
+    /* =============================================================
+       EMOJI RIDDLE CSS
+    ============================================================= */
+    .riddle-box {
+      background: rgba(10, 14, 24, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    .riddle-emojis {
+      font-size: 3.2rem;
+      letter-spacing: 12px;
+      margin: 10px 0;
+      animation: hakiPulse 2s infinite alternate;
+    }
+    .riddle-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+    .riddle-opt-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .riddle-opt-btn:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body data-theme="onepiece">
@@ -1031,12 +1207,21 @@
     </div>
 
     <!-- Master Game Switcher Tabs -->
-    <div class="game-mode-switcher" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+    <div class="game-mode-switcher" style="grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));">
       <button class="game-tab-btn active" id="tabTTT" onclick="switchGame('ttt')">
         <span>⚔️ Tic-Tac-Toe</span>
       </button>
       <button class="game-tab-btn" id="tabSudoku" onclick="switchGame('sudoku')">
         <span>🧩 Sudoku</span>
+      </button>
+      <button class="game-tab-btn" id="tabHigherLower" onclick="switchGame('higherlower')">
+        <span>💰 Higher/Lower</span>
+      </button>
+      <button class="game-tab-btn" id="tabImpostor" onclick="switchGame('impostor')">
+        <span>🎭 Impostor</span>
+      </button>
+      <button class="game-tab-btn" id="tabRiddle" onclick="switchGame('riddle')">
+        <span>❓ Emoji Riddle</span>
       </button>
       <button class="game-tab-btn" id="tabLudo" onclick="switchGame('ludo')">
         <span>🎲 Ludo Royale</span>
@@ -1323,6 +1508,112 @@
       </div>
     </div>
 
+    <!-- =========================================================
+         SECTION 6: HIGHER OR LOWER (BOUNTY CLASH)
+    ========================================================= -->
+    <div id="higherlowerView" style="display: none;">
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x">💰</div>
+          <div>
+            <div class="status-main-text" id="hlStatusTitle">Current Streak: 0</div>
+            <div class="status-sub-text" id="hlStatusSub">Guess if the opponent has a higher or lower bounty!</div>
+          </div>
+        </div>
+        <div style="font-size:0.8rem; font-weight:800; color:var(--text-gold);" id="hlBestStreak">Best: 0</div>
+      </div>
+
+      <div class="hl-arena">
+        <!-- Known Card -->
+        <div class="hl-card" id="hlCardA">
+          <div class="hl-avatar" id="hlAvatarA">🍖</div>
+          <div class="hl-name" id="hlNameA">Monkey D. Luffy</div>
+          <div class="hl-crew" id="hlCrewA">Straw Hat Pirates</div>
+          <div class="hl-bounty-box" id="hlBountyA">฿ 3,000,000,000</div>
+        </div>
+
+        <div style="text-align: center; font-weight: 900; font-size: 0.9rem; color: var(--text-gold);">VS</div>
+
+        <!-- Target Card (To Guess) -->
+        <div class="hl-card" id="hlCardB">
+          <div class="hl-avatar" id="hlAvatarB">⚔️</div>
+          <div class="hl-name" id="hlNameB">Roronoa Zoro</div>
+          <div class="hl-crew" id="hlCrewB">Straw Hat Pirates</div>
+          <div class="hl-bounty-box" id="hlBountyB">???</div>
+
+          <div class="hl-btn-grid" id="hlBtnGrid">
+            <button class="hl-btn hl-btn-higher" onclick="guessHigherLower('higher')">
+              ▲ HIGHER
+            </button>
+            <button class="hl-btn hl-btn-lower" onclick="guessHigherLower('lower')">
+              ▼ LOWER
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card" style="margin-top: 12px; font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
+        <strong style="color:var(--text-gold)">Bounty Streak:</strong> Build a streak of 5 to claim +100M Bounty; 10 streak awards +500M Bounty!
+      </div>
+    </div>
+
+    <!-- =========================================================
+         SECTION 7: IMPOSTOR (ODD ONE OUT)
+    ========================================================= -->
+    <div id="impostorView" style="display: none;">
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x">🎭</div>
+          <div>
+            <div class="status-main-text" id="impTitle">Spot the Impostor</div>
+            <div class="status-sub-text" id="impSubtitle">One pirate breaks the hidden theme. Tap the fake!</div>
+          </div>
+        </div>
+        <div style="font-size:0.8rem; font-weight:800; color:var(--text-gold);" id="impScore">Score: 0</div>
+      </div>
+
+      <div class="imp-grid" id="impGrid">
+        <!-- 4 cards dynamically loaded -->
+      </div>
+
+      <div class="actions-grid ttt-actions" style="margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-primary" onclick="initImpostor()">
+          <span>🔄 Next Round</span>
+        </button>
+      </div>
+
+      <div class="bento-card" id="impExplanation" style="display:none; font-size:0.8rem; color:var(--text-gold); line-height:1.4;">
+      </div>
+    </div>
+
+    <!-- =========================================================
+         SECTION 8: EMOJI RIDDLE
+    ========================================================= -->
+    <div id="riddleView" style="display: none;">
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x">❓</div>
+          <div>
+            <div class="status-main-text" id="riddleTitle">Decipher the Emojis</div>
+            <div class="status-sub-text" id="riddleSubtitle">Which character do these emojis represent?</div>
+          </div>
+        </div>
+        <div style="font-size:0.8rem; font-weight:800; color:var(--text-gold);" id="riddleScore">Streak: 0</div>
+      </div>
+
+      <div class="riddle-box">
+        <div class="riddle-emojis" id="riddleEmojis">🍖 👒 🥊</div>
+        <div style="font-size:0.8rem; color:var(--text-muted);" id="riddleHint">Tap the correct pirate:</div>
+        <div class="riddle-options" id="riddleOptions"></div>
+      </div>
+
+      <div class="actions-grid ttt-actions" style="margin-top: 12px; margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-primary" onclick="nextRiddle()">
+          <span>🔄 Next Riddle</span>
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -1444,16 +1735,33 @@
 
     function switchGame(game) {
       activeGame = game;
-      const games = ['ttt', 'sudoku', 'ludo', 'gravity', 'dots'];
-      games.forEach(g => {
-        const tabEl = document.getElementById('tab' + (g === 'ttt' ? 'TTT' : g.charAt(0).toUpperCase() + g.slice(1)));
-        const viewEl = document.getElementById(g + 'View');
-        if (tabEl) tabEl.classList.toggle('active', g === game);
-        if (viewEl) viewEl.style.display = (g === game) ? 'block' : 'none';
+      const gameMap = {
+        ttt: { tab: 'tabTTT', view: 'tttView' },
+        sudoku: { tab: 'tabSudoku', view: 'sudokuView' },
+        higherlower: { tab: 'tabHigherLower', view: 'higherlowerView' },
+        impostor: { tab: 'tabImpostor', view: 'impostorView' },
+        riddle: { tab: 'tabRiddle', view: 'riddleView' },
+        ludo: { tab: 'tabLudo', view: 'ludoView' },
+        gravity: { tab: 'tabGravity', view: 'gravityView' },
+        dots: { tab: 'tabDots', view: 'dotsView' }
+      };
+
+      Object.keys(gameMap).forEach(key => {
+        const item = gameMap[key];
+        const tabEl = document.getElementById(item.tab);
+        const viewEl = document.getElementById(item.view);
+        if (tabEl) tabEl.classList.toggle('active', key === game);
+        if (viewEl) viewEl.style.display = (key === game) ? 'block' : 'none';
       });
 
       if (game === 'sudoku' && sudokuState.board.length === 0) {
         initNewSudokuGame(false);
+      } else if (game === 'higherlower' && !hlInitialized) {
+        initHigherLower();
+      } else if (game === 'impostor' && !impInitialized) {
+        initImpostor();
+      } else if (game === 'riddle' && !riddleInitialized) {
+        initRiddle();
       } else if (game === 'ludo' && !ludoInitialized) {
         initLudo();
       } else if (game === 'gravity' && !gravityInitialized) {
@@ -2752,6 +3060,344 @@
         document.getElementById('dotsStatusTitle').innerHTML = `🏆 MATCH CONCLUDED! Winner: <strong>${winner}</strong>!`;
         soundVictory();
         increaseBounty(2);
+      }
+    }
+
+    // =============================================================
+    // GAME ENGINE 6: HIGHER OR LOWER (BOUNTY CLASH)
+    // =============================================================
+    let hlInitialized = false;
+    let hlStreak = 0;
+    let hlBest = parseInt(localStorage.getItem('davy_hl_best') || '0', 10);
+    let hlCardA = null;
+    let hlCardB = null;
+
+    const OP_CHARACTERS = [
+      { name: "Chopper", crew: "Straw Hat Pirates", bounty: 1000, avatar: "🦌" },
+      { name: "Bepo", crew: "Heart Pirates", bounty: 500, avatar: "🐻" },
+      { name: "Buggy (East Blue)", crew: "Buggy Pirates", bounty: 15000000, avatar: "🤡" },
+      { name: "Arlong", crew: "Arlong Pirates", bounty: 20000000, avatar: "🦈" },
+      { name: "Smoker", crew: "Marines", bounty: 30000000, avatar: "💨" },
+      { name: "Nami", crew: "Straw Hat Pirates", bounty: 366000000, avatar: "🍊" },
+      { name: "Brook", crew: "Straw Hat Pirates", bounty: 383000000, avatar: "💀" },
+      { name: "Franky", crew: "Straw Hat Pirates", bounty: 394000000, avatar: "🤖" },
+      { name: "Nico Robin", crew: "Straw Hat Pirates", bounty: 930000000, avatar: "📖" },
+      { name: "Jinbe", crew: "Straw Hat Pirates", bounty: 1100000000, avatar: "🥋" },
+      { name: "Sanji", crew: "Straw Hat Pirates", bounty: 1032000000, avatar: "🍳" },
+      { name: "Roronoa Zoro", crew: "Straw Hat Pirates", bounty: 1111000000, avatar: "⚔️" },
+      { name: "Katakuri", crew: "Big Mom Pirates", bounty: 1057000000, avatar: "🍩" },
+      { name: "King the Conflagration", crew: "Beast Pirates", bounty: 1390000000, avatar: "🔥" },
+      { name: "Marco the Phoenix", crew: "Whitebeard Pirates", bounty: 1374000000, avatar: "🦅" },
+      { name: "Boa Hancock", crew: "Kuja Pirates", bounty: 1659000000, avatar: "🐍" },
+      { name: "Crocodile", crew: "Cross Guild", bounty: 1965000000, avatar: "🐊" },
+      { name: "Trafalgar Law", crew: "Heart Pirates", bounty: 3000000000, avatar: "💉" },
+      { name: "Eustass Kid", crew: "Kid Pirates", bounty: 3000000000, avatar: "🧲" },
+      { name: "Monkey D. Luffy", crew: "Straw Hat Pirates", bounty: 3000000000, avatar: "🍖" },
+      { name: "Buggy the Genius Jester", crew: "Cross Guild (Yonko)", bounty: 3189000000, avatar: "🎪" },
+      { name: "Dracule Mihawk", crew: "Cross Guild", bounty: 3590000000, avatar: "🗡️" },
+      { name: "Marshall D. Teach (Blackbeard)", crew: "Blackbeard Pirates", bounty: 3996000000, avatar: "🏴‍☠️" },
+      { name: "Shanks", crew: "Red Hair Pirates", bounty: 4048900000, avatar: "👒" },
+      { name: "Charlotte Linlin (Big Mom)", crew: "Big Mom Pirates", bounty: 4388000000, avatar: "🍰" },
+      { name: "Kaido of the Beasts", crew: "Beast Pirates", bounty: 4611100000, avatar: "🐉" },
+      { name: "Edward Newgate (Whitebeard)", crew: "Whitebeard Pirates", bounty: 5046000000, avatar: "🌊" },
+      { name: "Gol D. Roger", crew: "Roger Pirates", bounty: 5564800000, avatar: "👑" }
+    ];
+
+    function formatBounty(num) {
+      return '฿ ' + num.toLocaleString('en-US');
+    }
+
+    function initHigherLower() {
+      hlInitialized = true;
+      hlStreak = 0;
+      document.getElementById('hlBestStreak').textContent = `Best: ${hlBest}`;
+      document.getElementById('hlStatusTitle').textContent = `Current Streak: 0`;
+      document.getElementById('hlStatusSub').textContent = `Guess if the rival's bounty is Higher or Lower!`;
+      setupHLRound();
+    }
+
+    function getRandomChar(excludeName = null) {
+      let pool = OP_CHARACTERS.filter(c => c.name !== excludeName);
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function setupHLRound() {
+      if (!hlCardA) {
+        hlCardA = getRandomChar();
+      }
+      hlCardB = getRandomChar(hlCardA.name);
+
+      // Render Known Card A
+      document.getElementById('hlAvatarA').textContent = hlCardA.avatar;
+      document.getElementById('hlNameA').textContent = hlCardA.name;
+      document.getElementById('hlCrewA').textContent = hlCardA.crew;
+      document.getElementById('hlBountyA').textContent = formatBounty(hlCardA.bounty);
+
+      // Render Target Card B (Hidden)
+      document.getElementById('hlAvatarB').textContent = hlCardB.avatar;
+      document.getElementById('hlNameB').textContent = hlCardB.name;
+      document.getElementById('hlCrewB').textContent = hlCardB.crew;
+      document.getElementById('hlBountyB').textContent = "???";
+
+      document.getElementById('hlBtnGrid').style.display = 'grid';
+    }
+
+    function guessHigherLower(choice) {
+      const isHigher = hlCardB.bounty >= hlCardA.bounty;
+      const won = (choice === 'higher' && isHigher) || (choice === 'lower' && !isHigher);
+
+      document.getElementById('hlBountyB').textContent = formatBounty(hlCardB.bounty);
+      document.getElementById('hlBtnGrid').style.display = 'none';
+
+      if (won) {
+        soundVictory();
+        hlStreak++;
+        if (hlStreak > hlBest) {
+          hlBest = hlStreak;
+          localStorage.setItem('davy_hl_best', hlBest);
+          document.getElementById('hlBestStreak').textContent = `Best: ${hlBest}`;
+        }
+        document.getElementById('hlStatusTitle').textContent = `🔥 Streak: ${hlStreak}! Correct!`;
+        document.getElementById('hlStatusSub').textContent = `${hlCardB.name} is indeed ${choice.toUpperCase()}!`;
+
+        if (hlStreak % 5 === 0) {
+          increaseBounty(2);
+        }
+
+        setTimeout(() => {
+          hlCardA = hlCardB;
+          setupHLRound();
+        }, 1200);
+      } else {
+        soundDefeat();
+        document.getElementById('hlStatusTitle').textContent = `💥 Run Sunk! Final Streak: ${hlStreak}`;
+        document.getElementById('hlStatusSub').textContent = `Incorrect! ${hlCardB.name}'s bounty was ${formatBounty(hlCardB.bounty)}.`;
+        hlStreak = 0;
+        setTimeout(() => {
+          hlCardA = null;
+          setupHLRound();
+        }, 1800);
+      }
+    }
+
+
+    // =============================================================
+    // GAME ENGINE 7: IMPOSTOR (ODD ONE OUT)
+    // =============================================================
+    let impInitialized = false;
+    let impScoreVal = 0;
+    let currentImpRound = null;
+
+    const IMPOSTOR_PUZZLES = [
+      {
+        theme: "Users of Conqueror's Haki",
+        impostor: "Sanji",
+        reason: "Luffy, Zoro, and Shanks possess Supreme King's Haki, while Sanji relies on Armament & Observation!",
+        cards: [
+          { name: "Luffy", trait: "Emperor", avatar: "🍖" },
+          { name: "Zoro", trait: "King of Hell", avatar: "⚔️" },
+          { name: "Sanji", trait: "Stealth Black", avatar: "🍳" },
+          { name: "Shanks", trait: "Red-Hair", avatar: "👒" }
+        ]
+      },
+      {
+        theme: "Logia Devil Fruit Users",
+        impostor: "Marco",
+        reason: "Crocodile, Smoker, and Kizaru ate Logia fruits, while Marco ate a Mythical Zoan!",
+        cards: [
+          { name: "Crocodile", trait: "Sand-Sand Fruit", avatar: "🐊" },
+          { name: "Smoker", trait: "Smoke-Smoke Fruit", avatar: "💨" },
+          { name: "Marco", trait: "Phoenix Zoan", avatar: "🦅" },
+          { name: "Kizaru", trait: "Glint-Glint Fruit", avatar: "⚡" }
+        ]
+      },
+      {
+        theme: "Original Seven Warlords of the Sea (Shichibukai)",
+        impostor: "Buggy",
+        reason: "Mihawk, Hancock, and Jinbe were original Shichibukai; Buggy became a Warlord later during the timeskip!",
+        cards: [
+          { name: "Dracule Mihawk", trait: "Original Warlord", avatar: "🗡️" },
+          { name: "Boa Hancock", trait: "Original Warlord", avatar: "🐍" },
+          { name: "Jinbe", trait: "Original Warlord", avatar: "🥋" },
+          { name: "Buggy", trait: "Timeskip Warlord", avatar: "🤡" }
+        ]
+      },
+      {
+        theme: "Born in the North Blue",
+        impostor: "Zoro",
+        reason: "Sanji, Law, and Hawkins were born in the North Blue; Zoro was born in the East Blue!",
+        cards: [
+          { name: "Sanji", trait: "Germa 66", avatar: "🍳" },
+          { name: "Trafalgar Law", trait: "Flevance", avatar: "💉" },
+          { name: "Basil Hawkins", trait: "North Blue", avatar: "🃏" },
+          { name: "Zoro", trait: "Shimotsuki Village", avatar: "⚔️" }
+        ]
+      },
+      {
+        theme: "Possessors of the 'Will of D'",
+        impostor: "Katakuri",
+        reason: "Luffy, Law, and Teach carry the initial 'D.', while Charlotte Katakuri does not!",
+        cards: [
+          { name: "Monkey D. Luffy", trait: "Will of D.", avatar: "🍖" },
+          { name: "Trafalgar D. Law", trait: "Will of D.", avatar: "💉" },
+          { name: "Marshall D. Teach", trait: "Will of D.", avatar: "🏴‍☠️" },
+          { name: "Charlotte Katakuri", trait: "Charlotte Family", avatar: "🍩" }
+        ]
+      }
+    ];
+
+    function initImpostor() {
+      impInitialized = true;
+      document.getElementById('impExplanation').style.display = 'none';
+      const idx = Math.floor(Math.random() * IMPOSTOR_PUZZLES.length);
+      currentImpRound = IMPOSTOR_PUZZLES[idx];
+
+      document.getElementById('impTitle').textContent = `Theme: ${currentImpRound.theme}`;
+      document.getElementById('impSubtitle').textContent = "Find the pirate that DOES NOT fit!";
+
+      const container = document.getElementById('impGrid');
+      container.innerHTML = '';
+
+      // Shuffle cards
+      const shuffled = [...currentImpRound.cards].sort(() => Math.random() - 0.5);
+
+      shuffled.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'imp-card';
+        div.innerHTML = `
+          <div class="imp-avatar">${c.avatar}</div>
+          <div class="imp-name">${c.name}</div>
+          <div class="imp-trait">${c.trait}</div>
+        `;
+        div.onclick = () => handleImpPick(div, c.name);
+        container.appendChild(div);
+      });
+    }
+
+    function handleImpPick(el, name) {
+      const exp = document.getElementById('impExplanation');
+      exp.style.display = 'block';
+
+      if (name === currentImpRound.impostor) {
+        soundVictory();
+        el.classList.add('imp-correct');
+        impScoreVal++;
+        document.getElementById('impScore').textContent = `Score: ${impScoreVal}`;
+        exp.innerHTML = `<strong style="color:#10b981">CORRECT!</strong> ${currentImpRound.reason}`;
+        increaseBounty(1);
+      } else {
+        soundDefeat();
+        el.classList.add('imp-wrong');
+        exp.innerHTML = `<strong style="color:#ef4444">BUSTED!</strong> ${currentImpRound.impostor} was the impostor. ${currentImpRound.reason}`;
+      }
+    }
+
+
+    // =============================================================
+    // GAME ENGINE 8: EMOJI RIDDLE
+    // =============================================================
+    let riddleInitialized = false;
+    let riddleStreakVal = 0;
+    let currentRiddle = null;
+
+    const RIDDLES_DATA = [
+      {
+        emojis: "🍖 👒 🥊",
+        answer: "Monkey D. Luffy",
+        options: ["Monkey D. Luffy", "Gol D. Roger", "Portgas D. Ace", "Garp"]
+      },
+      {
+        emojis: "⚔️ 🟢 🧭❌",
+        answer: "Roronoa Zoro",
+        options: ["Dracule Mihawk", "Roronoa Zoro", "Trafalgar Law", "Cavendish"]
+      },
+      {
+        emojis: "🍳 🚬 🦵🔥",
+        answer: "Sanji",
+        options: ["Zeff", "Sanji", "Marco", "King"]
+      },
+      {
+        emojis: "🍊 🧭 ⚡💰",
+        answer: "Nami",
+        options: ["Nami", "Carina", "Robin", "Koala"]
+      },
+      {
+        emojis: "🦌 🌸 💊🩹",
+        answer: "Tony Tony Chopper",
+        options: ["Bepo", "Tony Tony Chopper", "Doctor Kureha", "Hiriluk"]
+      },
+      {
+        emojis: "💀 🎻 🩲☕",
+        answer: "Brook",
+        options: ["Brook", "Apoo", "Gecko Moria", "Ryuma"]
+      },
+      {
+        emojis: "🤖 🥤 🔧💥",
+        answer: "Franky",
+        options: ["Vegapunk", "Franky", "Queen", "Tom"]
+      },
+      {
+        emojis: "📖 👁️ 🌸🖐️",
+        answer: "Nico Robin",
+        options: ["Nico Robin", "Nico Olvia", "Boa Hancock", "Hiyori"]
+      },
+      {
+        emojis: "🐍 💖 👑🗿",
+        answer: "Boa Hancock",
+        options: ["Shirahoshi", "Boa Hancock", "Reiju", "Yamato"]
+      },
+      {
+        emojis: "🍩 🪞 🔱🍡",
+        answer: "Charlotte Katakuri",
+        options: ["Charlotte Cracker", "Charlotte Katakuri", "Perospero", "Doflamingo"]
+      }
+    ];
+
+    function initRiddle() {
+      riddleInitialized = true;
+      riddleStreakVal = 0;
+      document.getElementById('riddleScore').textContent = `Streak: 0`;
+      nextRiddle();
+    }
+
+    function nextRiddle() {
+      const idx = Math.floor(Math.random() * RIDDLES_DATA.length);
+      currentRiddle = RIDDLES_DATA[idx];
+
+      document.getElementById('riddleEmojis').textContent = currentRiddle.emojis;
+      document.getElementById('riddleHint').textContent = "Tap the pirate that matches these clues:";
+
+      const optsContainer = document.getElementById('riddleOptions');
+      optsContainer.innerHTML = '';
+
+      const shuffled = [...currentRiddle.options].sort(() => Math.random() - 0.5);
+      shuffled.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'riddle-opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => handleRiddleAnswer(btn, opt);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function handleRiddleAnswer(btn, chosen) {
+      if (chosen === currentRiddle.answer) {
+        soundVictory();
+        btn.style.background = '#10b981';
+        btn.style.color = '#fff';
+        riddleStreakVal++;
+        document.getElementById('riddleScore').textContent = `Streak: ${riddleStreakVal}`;
+        document.getElementById('riddleHint').innerHTML = `<strong style="color:#10b981">SPOT ON!</strong> ${currentRiddle.answer}!`;
+        increaseBounty(1);
+        setTimeout(nextRiddle, 1100);
+      } else {
+        soundDefeat();
+        btn.style.background = '#ef4444';
+        btn.style.color = '#fff';
+        document.getElementById('riddleHint').innerHTML = `<strong style="color:#ef4444">INCORRECT!</strong> It was ${currentRiddle.answer}.`;
+        riddleStreakVal = 0;
+        document.getElementById('riddleScore').textContent = `Streak: 0`;
+        setTimeout(nextRiddle, 1600);
       }
     }
 
