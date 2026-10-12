@@ -777,17 +777,224 @@
     @keyframes hakiPulse {
       0% { transform: scale(1); filter: brightness(1); }
       100% { transform: scale(1.05); filter: brightness(1.4); }
+    /* =============================================================
+       LUDO ROYALE MINI CSS
+    ============================================================= */
+    .ludo-board-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: rgba(10, 14, 24, 0.9);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(15, 1fr);
+      grid-template-rows: repeat(15, 1fr);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    [data-theme="neobrutal"] .ludo-board-wrap {
+      background: #ffffff;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0 #000;
+    }
+    .l-base-red { grid-column: 1 / 7; grid-row: 1 / 7; background: #ef4444; border-radius: 14px 0 0 0; }
+    .l-base-green { grid-column: 10 / 16; grid-row: 1 / 7; background: #10b981; border-radius: 0 14px 0 0; }
+    .l-base-yellow { grid-column: 10 / 16; grid-row: 10 / 16; background: #f59e0b; border-radius: 0 0 14px 0; }
+    .l-base-blue { grid-column: 1 / 7; grid-row: 10 / 16; background: #3b82f6; border-radius: 0 0 0 14px; }
+    .l-base-inner {
+      width: 68%;
+      height: 68%;
+      background: var(--bg-base);
+      border-radius: 10px;
+      margin: 16% auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      padding: 6px;
+      gap: 6px;
+      align-items: center;
+      justify-items: center;
+    }
+    .l-slot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .l-center {
+      grid-column: 7 / 10;
+      grid-row: 7 / 10;
+      background: var(--card-bg);
+      border: 1px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .l-cell {
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    [data-theme="neobrutal"] .l-cell { border-color: #cbd5e1; }
+    .l-cell.l-safe::after {
+      content: '★';
+      font-size: 10px;
+      color: var(--accent-gold);
+    }
+    .l-cell.l-path-red { background: rgba(239, 68, 68, 0.45); }
+    .l-cell.l-path-green { background: rgba(16, 185, 129, 0.45); }
+    .l-pawn {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 10;
+    }
+    .l-pawn:hover { transform: scale(1.3); }
+    .l-pawn.l-selectable {
+      animation: pulsePawn 0.7s infinite alternate;
+    }
+    @keyframes pulsePawn {
+      from { transform: scale(1.1); box-shadow: 0 0 4px #fff; }
+      to { transform: scale(1.4); box-shadow: 0 0 12px var(--accent-gold); }
+    }
+    .l-pawn-red { background: #ef4444; }
+    .l-pawn-green { background: #10b981; }
+
+    .l-dice-box {
+      width: 48px;
+      height: 48px;
+      background: #ffffff;
+      color: #000;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .l-dice-box.rolling {
+      animation: rollDiceAnim 0.35s infinite;
+    }
+    @keyframes rollDiceAnim {
+      0% { transform: rotate(0deg) scale(0.9); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(0.9); }
     }
 
-    #fxCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 99;
+    /* =============================================================
+       GRAVITY DROP-TOE CSS
+       ============================================================= */
+    .grav-grid {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 10px;
+      padding: 12px;
+      background: rgba(10, 14, 24, 0.9);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    [data-theme="neobrutal"] .grav-grid {
+      background: #ffffff;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0 #000;
+    }
+    .grav-slot {
+      background: var(--cell-bg);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    [data-theme="neobrutal"] .grav-slot {
+      background: #f8fafc;
+      border: 2px solid #000;
+    }
+
+    /* =============================================================
+       DOTS & BOXES CSS
+       ============================================================= */
+    .dots-container {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+      align-items: center;
+      justify-items: center;
+      background: rgba(10, 14, 24, 0.9);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+    }
+    [data-theme="neobrutal"] .dots-container {
+      background: #ffffff;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0 #000;
+    }
+    .d-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--text-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-gold-glow);
+    }
+    [data-theme="neobrutal"] .d-dot { background: #000; box-shadow: none; }
+    .d-line-h {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .d-line-v {
+      width: 8px;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .d-line-h:hover, .d-line-v:hover { background: rgba(255,255,255,0.3); }
+    .d-line-p1 { background: var(--color-x) !important; box-shadow: 0 0 10px var(--color-x-glow); }
+    .d-line-p2 { background: var(--color-o) !important; box-shadow: 0 0 10px var(--color-o-glow); }
+    .d-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      border-radius: 6px;
+    }
+    .d-box-p1 { background: var(--color-x-bg); color: var(--color-x); }
+    .d-box-p2 { background: var(--color-o-bg); color: var(--color-o); }
   </style>
 </head>
 <body data-theme="onepiece">
@@ -812,19 +1019,28 @@
     </div>
 
     <!-- Master Game Switcher Tabs -->
-    <div class="game-mode-switcher">
+    <div class="game-mode-switcher" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
       <button class="game-tab-btn active" id="tabTTT" onclick="switchGame('ttt')">
         <span>⚔️ Tic-Tac-Toe</span>
       </button>
       <button class="game-tab-btn" id="tabSudoku" onclick="switchGame('sudoku')">
-        <span>🧩 Grand Line Sudoku</span>
+        <span>🧩 Sudoku</span>
+      </button>
+      <button class="game-tab-btn" id="tabLudo" onclick="switchGame('ludo')">
+        <span>🎲 Ludo Royale</span>
+      </button>
+      <button class="game-tab-btn" id="tabGravity" onclick="switchGame('gravity')">
+        <span>🌪️ Gravity-Toe</span>
+      </button>
+      <button class="game-tab-btn" id="tabDots" onclick="switchGame('dots')">
+        <span>⚡ Dots & Boxes</span>
       </button>
     </div>
 
     <!-- Header & Wanted Badge -->
     <header>
       <div class="wanted-tag">
-        <span id="wantedSub">⚔️ WANTED • DEAD OR ALIVE ⚔️</span>
+        <span id="wantedSub">⚔️ GRAND LINE ARCADE • MULTI-GAME ARENA ⚔️</span>
       </div>
       <h1 class="title-banner" id="mainTitle">GRAND LINE ARCADE</h1>
     </header>
@@ -1000,6 +1216,101 @@
       </div>
     </div>
 
+    <!-- =========================================================
+         SECTION 3: LUDO ROYALE MINI VIEW
+    ========================================================= -->
+    <div id="ludoView" style="display: none;">
+      <!-- Battle Status Banner -->
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x" id="ludoTurnAvatar" style="background:#ef4444; color:#fff">🍖</div>
+          <div>
+            <div class="status-main-text" id="ludoStatusTitle">Luffy (Red)'s Turn</div>
+            <div class="status-sub-text" id="ludoStatusSub">Roll a 6 to deploy from base!</div>
+          </div>
+        </div>
+        <div id="ludoDiceBtn" class="l-dice-box" onclick="rollLudoDice()">⚅</div>
+      </div>
+
+      <!-- 15x15 Ludo Board -->
+      <div class="ludo-board-wrap" id="ludoBoard" style="margin-bottom: 12px;"></div>
+
+      <!-- Ludo Actions -->
+      <div class="actions-grid ttt-actions" style="margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-secondary" onclick="initLudo()">
+          <span>🔄 Reset Match</span>
+        </button>
+        <button class="action-btn btn-pirate-primary" onclick="rollLudoDice()">
+          <span>🎲 Roll Dice</span>
+        </button>
+      </div>
+
+      <!-- Rules Hint -->
+      <div class="bento-card" style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
+        <strong style="color:var(--text-gold)">Ludo Rules:</strong> Roll <strong>6</strong> to exit base. Land on opponent pawns to capture them. Stars (★) are safe zones. First to bring both pawns home claims +300M Bounty!
+      </div>
+    </div>
+
+    <!-- =========================================================
+         SECTION 4: GRAVITY DROP-TOE VIEW
+    ========================================================= -->
+    <div id="gravityView" style="display: none;">
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x" id="gravTurnAvatar">🌪️</div>
+          <div>
+            <div class="status-main-text" id="gravStatusTitle">Player X's Turn</div>
+            <div class="status-sub-text">Drop a mark OR rotate the entire board 90°!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grav-grid" id="gravityBoard" style="margin-bottom: 12px;"></div>
+
+      <div class="actions-grid ttt-actions" style="margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-secondary" onclick="rotateGravityBoard(-90)">
+          <span>↺ Rotate Left</span>
+        </button>
+        <button class="action-btn btn-pirate-secondary" onclick="rotateGravityBoard(90)">
+          <span>↻ Rotate Right</span>
+        </button>
+        <button class="action-btn btn-pirate-primary" onclick="initGravity()">
+          <span>🔄 New Round</span>
+        </button>
+      </div>
+
+      <div class="bento-card" style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
+        <strong style="color:var(--text-gold)">Gravity Twist:</strong> Rotating the board pulls all pieces down to the bottom, breaking enemy lines and triggering cascading combos!
+      </div>
+    </div>
+
+    <!-- =========================================================
+         SECTION 5: DOTS & BOXES CHAOS VIEW
+    ========================================================= -->
+    <div id="dotsView" style="display: none;">
+      <div class="bento-card status-card" style="margin-bottom: 12px;">
+        <div class="status-side">
+          <div class="pirate-icon x">⚡</div>
+          <div>
+            <div class="status-main-text" id="dotsStatusTitle">P1 (Red): 0 &bull; P2 (Blue): 0</div>
+            <div class="status-sub-text" id="dotsTurnSub">Player 1's Turn: Connect adjacent dots</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dots-container" id="dotsBoard" style="margin-bottom: 12px;"></div>
+
+      <div class="actions-grid ttt-actions" style="margin-bottom: 12px;">
+        <button class="action-btn btn-pirate-primary" onclick="initDots()">
+          <span>🔄 New Territory War</span>
+        </button>
+      </div>
+
+      <div class="bento-card" style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
+        <strong style="color:var(--text-gold)">Territory Rules:</strong> Complete the 4th side of any box to claim it and get a free bonus turn!
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -1121,14 +1432,24 @@
 
     function switchGame(game) {
       activeGame = game;
-      document.getElementById('tabTTT').classList.toggle('active', game === 'ttt');
-      document.getElementById('tabSudoku').classList.toggle('active', game === 'sudoku');
-      document.getElementById('tttView').style.display = game === 'ttt' ? 'block' : 'none';
-      document.getElementById('sudokuView').style.display = game === 'sudoku' ? 'block' : 'none';
+      const games = ['ttt', 'sudoku', 'ludo', 'gravity', 'dots'];
+      games.forEach(g => {
+        const tabEl = document.getElementById('tab' + (g === 'ttt' ? 'TTT' : g.charAt(0).toUpperCase() + g.slice(1)));
+        const viewEl = document.getElementById(g + 'View');
+        if (tabEl) tabEl.classList.toggle('active', g === game);
+        if (viewEl) viewEl.style.display = (g === game) ? 'block' : 'none';
+      });
 
       if (game === 'sudoku' && sudokuState.board.length === 0) {
         initNewSudokuGame(false);
+      } else if (game === 'ludo' && !ludoInitialized) {
+        initLudo();
+      } else if (game === 'gravity' && !gravityInitialized) {
+        initGravity();
+      } else if (game === 'dots' && !dotsInitialized) {
+        initDots();
       }
+
       playTone(520, 'triangle', 0.08, 0.15);
     }
 
@@ -1962,6 +2283,465 @@
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
+
+    // =============================================================
+    // GAME ENGINE 3: LUDO ROYALE MINI (Red vs Green)
+    // =============================================================
+    let ludoInitialized = false;
+    const LUDO_PERIMETER = [
+      {c:2, r:7}, {c:3, r:7}, {c:4, r:7}, {c:5, r:7}, {c:6, r:7}, {c:7, r:6},
+      {c:7, r:4}, {c:7, r:2}, {c:8, r:1}, {c:9, r:2}, {c:9, r:4}, {c:9, r:6},
+      {c:10, r:7}, {c:11, r:7}, {c:12, r:7}, {c:13, r:7}, {c:14, r:7}, {c:14, r:8},
+      {c:14, r:9}, {c:12, r:9}, {c:10, r:9}, {c:9, r:10}, {c:9, r:12}, {c:9, r:14},
+      {c:8, r:15}, {c:7, r:14}, {c:7, r:12}, {c:7, r:10}, {c:6, r:9}, {c:4, r:9},
+      {c:2, r:9}, {c:1, r:8}
+    ];
+    const LUDO_CFG = {
+      red: { startIdx: 0, homeTarget: 31, name: "Luffy (Red)", avatar: "🍖", color: "#ef4444" },
+      green: { startIdx: 16, homeTarget: 15, name: "Zoro (Green)", avatar: "⚔️", color: "#10b981" }
+    };
+    let ludoState = {
+      turn: 'red',
+      dice: null,
+      rolled: false,
+      pawns: {
+        red: [{ pos: 'base', steps: 0 }, { pos: 'base', steps: 0 }],
+        green: [{ pos: 'base', steps: 0 }, { pos: 'base', steps: 0 }]
+      },
+      winner: null
+    };
+
+    function initLudo() {
+      ludoInitialized = true;
+      ludoState = {
+        turn: 'red',
+        dice: null,
+        rolled: false,
+        pawns: {
+          red: [{ pos: 'base', steps: 0 }, { pos: 'base', steps: 0 }],
+          green: [{ pos: 'base', steps: 0 }, { pos: 'base', steps: 0 }]
+        },
+        winner: null
+      };
+      document.getElementById('ludoDiceBtn').textContent = '⚅';
+      document.getElementById('ludoStatusTitle').textContent = "Luffy (Red)'s Turn";
+      document.getElementById('ludoStatusSub').textContent = "Roll the dice to set sail!";
+      updateLudoUI();
+    }
+
+    function renderLudoBoardGrid() {
+      const b = document.getElementById('ludoBoard');
+      b.innerHTML = '';
+
+      // 4 Bases
+      const bRed = document.createElement('div');
+      bRed.className = 'l-base-red';
+      bRed.innerHTML = '<div class="l-base-inner"><div class="l-slot" id="lr-slot-0"></div><div class="l-slot" id="lr-slot-1"></div></div>';
+      b.appendChild(bRed);
+
+      const bGreen = document.createElement('div');
+      bGreen.className = 'l-base-green';
+      bGreen.innerHTML = '<div class="l-base-inner"><div class="l-slot" id="lg-slot-0"></div><div class="l-slot" id="lg-slot-1"></div></div>';
+      b.appendChild(bGreen);
+
+      const bYellow = document.createElement('div');
+      bYellow.className = 'l-base-yellow';
+      b.appendChild(bYellow);
+
+      const bBlue = document.createElement('div');
+      bBlue.className = 'l-base-blue';
+      b.appendChild(bBlue);
+
+      // Center
+      const c = document.createElement('div');
+      c.className = 'l-center';
+      c.id = 'ludo-home-finish';
+      c.innerHTML = '👑';
+      b.appendChild(c);
+
+      // Circuit tracks
+      LUDO_PERIMETER.forEach((cell, idx) => {
+        const d = document.createElement('div');
+        d.className = 'l-cell';
+        if (idx === 0) d.classList.add('l-path-red', 'l-safe');
+        if (idx === 16) d.classList.add('l-path-green', 'l-safe');
+        if (idx === 8 || idx === 24) d.classList.add('l-safe');
+        d.style.gridColumn = cell.c;
+        d.style.gridRow = cell.r;
+        d.id = `l-track-${idx}`;
+        b.appendChild(d);
+      });
+    }
+
+    function updateLudoUI() {
+      renderLudoBoardGrid();
+
+      // Render Pawns
+      ['red', 'green'].forEach(color => {
+        ludoState.pawns[color].forEach((p, idx) => {
+          const pawnEl = document.createElement('div');
+          pawnEl.className = `l-pawn l-pawn-${color}`;
+          pawnEl.id = `l-pawn-${color}-${idx}`;
+
+          if (ludoState.rolled && ludoState.turn === color && !ludoState.winner) {
+            if (canLudoMove(color, idx, ludoState.dice)) {
+              pawnEl.classList.add('l-selectable');
+              pawnEl.onclick = () => moveLudoPawn(color, idx);
+            }
+          }
+
+          if (p.pos === 'base') {
+            const slot = document.getElementById(`l${color === 'red' ? 'r' : 'g'}-slot-${idx}`);
+            if (slot) slot.appendChild(pawnEl);
+          } else if (p.pos === 'home') {
+            pawnEl.style.transform = 'scale(0.8)';
+            const center = document.getElementById('ludo-home-finish');
+            if (center) center.appendChild(pawnEl);
+          } else {
+            const cell = document.getElementById(`l-track-${p.pos}`);
+            if (cell) cell.appendChild(pawnEl);
+          }
+        });
+      });
+
+      // Status Indicator
+      const cur = LUDO_CFG[ludoState.turn];
+      const av = document.getElementById('ludoTurnAvatar');
+      if (av) {
+        av.textContent = cur.avatar;
+        av.style.background = cur.color;
+      }
+    }
+
+    function canLudoMove(color, idx, roll) {
+      const p = ludoState.pawns[color][idx];
+      if (p.pos === 'home') return false;
+      if (p.pos === 'base') return roll === 6;
+      if (p.steps + roll > 31) return false;
+      return true;
+    }
+
+    function rollLudoDice() {
+      if (ludoState.rolled || ludoState.winner) return;
+      playTone(400, 'square', 0.08, 0.2);
+
+      const dEl = document.getElementById('ludoDiceBtn');
+      dEl.classList.add('rolling');
+
+      setTimeout(() => {
+        dEl.classList.remove('rolling');
+        const roll = Math.floor(Math.random() * 6) + 1;
+        const diceGlyphs = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+        dEl.textContent = diceGlyphs[roll - 1];
+        ludoState.dice = roll;
+        ludoState.rolled = true;
+        soundPlace();
+
+        const moves = [0, 1].filter(idx => canLudoMove(ludoState.turn, idx, roll));
+        if (moves.length === 0) {
+          document.getElementById('ludoStatusSub').textContent = `Rolled a ${roll}. No moves available! Passing turn...`;
+          setTimeout(() => endLudoTurn(false), 900);
+        } else {
+          document.getElementById('ludoStatusSub').textContent = `Rolled ${roll}! Tap your flashing pawn to advance.`;
+          updateLudoUI();
+        }
+      }, 350);
+    }
+
+    function moveLudoPawn(color, idx) {
+      const p = ludoState.pawns[color][idx];
+      const roll = ludoState.dice;
+      soundClash('X');
+
+      if (p.pos === 'base') {
+        p.pos = LUDO_CFG[color].startIdx;
+        p.steps = 1;
+      } else {
+        p.steps += roll;
+        if (p.steps >= 31) {
+          p.pos = 'home';
+          soundVictory();
+        } else {
+          p.pos = (p.pos + roll) % LUDO_PERIMETER.length;
+          // Capture check
+          if (![0, 16, 8, 24].includes(p.pos)) {
+            const opp = color === 'red' ? 'green' : 'red';
+            ludoState.pawns[opp].forEach(oppP => {
+              if (oppP.pos === p.pos) {
+                oppP.pos = 'base';
+                oppP.steps = 0;
+                soundDefeat();
+                document.getElementById('ludoStatusSub').textContent = `💥 KNOCKOUT! Opponent sent back to base!`;
+              }
+            });
+          }
+        }
+      }
+
+      if (ludoState.pawns[color].every(x => x.pos === 'home')) {
+        ludoState.winner = color;
+        document.getElementById('ludoStatusTitle').textContent = `👑 ${LUDO_CFG[color].name} CONQUERS THE SEA!`;
+        increaseBounty(3);
+        soundVictory();
+        updateLudoUI();
+        return;
+      }
+
+      endLudoTurn(roll === 6);
+    }
+
+    function endLudoTurn(bonus) {
+      ludoState.rolled = false;
+      ludoState.dice = null;
+      if (!bonus) {
+        ludoState.turn = ludoState.turn === 'red' ? 'green' : 'red';
+        document.getElementById('ludoStatusTitle').textContent = `${LUDO_CFG[ludoState.turn].name}'s Turn`;
+        document.getElementById('ludoStatusSub').textContent = "Roll the dice!";
+      } else {
+        document.getElementById('ludoStatusSub').textContent = "Rolled 6: Extra roll awarded!";
+      }
+      updateLudoUI();
+    }
+
+
+    // =============================================================
+    // GAME ENGINE 4: GRAVITY DROP-TOE (Board Physics)
+    // =============================================================
+    let gravityInitialized = false;
+    let gravGrid = [[null,null,null],[null,null,null],[null,null,null]];
+    let gravTurn = 'X';
+    let gravWinner = null;
+    let gravRotation = 0;
+
+    function initGravity() {
+      gravityInitialized = true;
+      gravGrid = [[null,null,null],[null,null,null],[null,null,null]];
+      gravTurn = 'X';
+      gravWinner = null;
+      gravRotation = 0;
+      const b = document.getElementById('gravityBoard');
+      if (b) b.style.transform = `rotate(0deg)`;
+      document.getElementById('gravStatusTitle').textContent = "Player X's Turn";
+      renderGravityGrid();
+    }
+
+    function renderGravityGrid() {
+      const b = document.getElementById('gravityBoard');
+      if (!b) return;
+      b.innerHTML = '';
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          const slot = document.createElement('div');
+          slot.className = 'grav-slot';
+          const val = gravGrid[r][c];
+          if (val) {
+            slot.textContent = val;
+            slot.style.color = val === 'X' ? 'var(--color-x)' : 'var(--color-o)';
+          }
+          slot.onclick = () => handleGravCellClick(r, c);
+          b.appendChild(slot);
+        }
+      }
+    }
+
+    function applyGravFall() {
+      for (let c = 0; c < 3; c++) {
+        let items = [];
+        for (let r = 0; r < 3; r++) {
+          if (gravGrid[r][c] !== null) items.push(gravGrid[r][c]);
+        }
+        for (let r = 2; r >= 0; r--) {
+          gravGrid[r][c] = items.length ? items.pop() : null;
+        }
+      }
+    }
+
+    function handleGravCellClick(r, c) {
+      if (gravGrid[r][c] || gravWinner) return;
+      soundPlace();
+      gravGrid[r][c] = gravTurn;
+      applyGravFall();
+
+      if (checkGravVictory(gravTurn)) {
+        gravWinner = gravTurn;
+        document.getElementById('gravStatusTitle').textContent = `🏆 Player ${gravTurn} Wins by Gravity!`;
+        soundVictory();
+        increaseBounty(1);
+        renderGravityGrid();
+        return;
+      }
+
+      gravTurn = gravTurn === 'X' ? 'O' : 'X';
+      document.getElementById('gravStatusTitle').textContent = `Player ${gravTurn}'s Turn`;
+      renderGravityGrid();
+    }
+
+    function rotateGravityBoard(deg) {
+      if (gravWinner) return;
+      playTone(320, 'sine', 0.15, 0.25);
+      gravRotation += deg;
+      document.getElementById('gravityBoard').style.transform = `rotate(${gravRotation}deg)`;
+
+      let rotated = [[null,null,null],[null,null,null],[null,null,null]];
+      if (deg === 90) {
+        for (let r = 0; r < 3; r++) {
+          for (let c = 0; c < 3; c++) rotated[c][2 - r] = gravGrid[r][c];
+        }
+      } else {
+        for (let r = 0; r < 3; r++) {
+          for (let c = 0; c < 3; c++) rotated[2 - c][r] = gravGrid[r][c];
+        }
+      }
+      gravGrid = rotated;
+
+      setTimeout(() => {
+        applyGravFall();
+        renderGravityGrid();
+        soundClash('X');
+
+        if (checkGravVictory('X') && checkGravVictory('O')) {
+          gravWinner = 'Tie';
+          document.getElementById('gravStatusTitle').textContent = `Mutual Cosmic Clash! It's a Tie!`;
+        } else if (checkGravVictory('X')) {
+          gravWinner = 'X';
+          document.getElementById('gravStatusTitle').textContent = `🏆 Player X Wins from Rotation!`;
+          soundVictory();
+          increaseBounty(1);
+        } else if (checkGravVictory('O')) {
+          gravWinner = 'O';
+          document.getElementById('gravStatusTitle').textContent = `🏆 Player O Wins from Rotation!`;
+          soundVictory();
+          increaseBounty(1);
+        } else {
+          gravTurn = gravTurn === 'X' ? 'O' : 'X';
+          document.getElementById('gravStatusTitle').textContent = `Board rotated! Player ${gravTurn}'s Turn`;
+        }
+      }, 250);
+    }
+
+    function checkGravVictory(mark) {
+      const g = gravGrid;
+      for (let i = 0; i < 3; i++) {
+        if (g[i][0] === mark && g[i][1] === mark && g[i][2] === mark) return true;
+        if (g[0][i] === mark && g[1][i] === mark && g[2][i] === mark) return true;
+      }
+      if (g[0][0] === mark && g[1][1] === mark && g[2][2] === mark) return true;
+      if (g[0][2] === mark && g[1][1] === mark && g[2][0] === mark) return true;
+      return false;
+    }
+
+
+    // =============================================================
+    // GAME ENGINE 5: DOTS & BOXES CHAOS
+    // =============================================================
+    let dotsInitialized = false;
+    let dH = [];
+    let dV = [];
+    let dBoxes = [];
+    let dTurn = 1;
+    let dScores = { 1: 0, 2: 0 };
+
+    function initDots() {
+      dotsInitialized = true;
+      dH = Array(4).fill(0).map(() => Array(3).fill(0));
+      dV = Array(3).fill(0).map(() => Array(4).fill(0));
+      dBoxes = Array(3).fill(0).map(() => Array(3).fill(null));
+      dTurn = 1;
+      dScores = { 1: 0, 2: 0 };
+      renderDotsBoard();
+      updateDotsHeader();
+    }
+
+    function updateDotsHeader() {
+      document.getElementById('dotsStatusTitle').innerHTML =
+        `<span style="color:var(--color-x)">P1 (Red): ${dScores[1]}</span> &nbsp;|&nbsp; ` +
+        `<span style="color:var(--color-o)">P2 (Blue): ${dScores[2]}</span>`;
+      document.getElementById('dotsTurnSub').textContent = `Player ${dTurn}'s Turn: Click to claim a grid edge`;
+    }
+
+    function renderDotsBoard() {
+      const b = document.getElementById('dotsBoard');
+      if (!b) return;
+      b.innerHTML = '';
+
+      for (let r = 0; r < 7; r++) {
+        for (let c = 0; c < 7; c++) {
+          if (r % 2 === 0 && c % 2 === 0) {
+            const dot = document.createElement('div');
+            dot.className = 'd-dot';
+            b.appendChild(dot);
+          } else if (r % 2 === 0 && c % 2 !== 0) {
+            const line = document.createElement('div');
+            line.className = 'd-line-h';
+            const hr = r / 2;
+            const hc = Math.floor(c / 2);
+            if (dH[hr][hc]) {
+              line.classList.add(dH[hr][hc] === 1 ? 'd-line-p1' : 'd-line-p2');
+            } else {
+              line.onclick = () => claimDotEdge('H', hr, hc);
+            }
+            b.appendChild(line);
+          } else if (r % 2 !== 0 && c % 2 === 0) {
+            const line = document.createElement('div');
+            line.className = 'd-line-v';
+            const vr = Math.floor(r / 2);
+            const vc = c / 2;
+            if (dV[vr][vc]) {
+              line.classList.add(dV[vr][vc] === 1 ? 'd-line-p1' : 'd-line-p2');
+            } else {
+              line.onclick = () => claimDotEdge('V', vr, vc);
+            }
+            b.appendChild(line);
+          } else {
+            const box = document.createElement('div');
+            box.className = 'd-box';
+            const br = Math.floor(r / 2);
+            const bc = Math.floor(c / 2);
+            if (dBoxes[br][bc]) {
+              box.textContent = dBoxes[br][bc] === 1 ? 'P1' : 'P2';
+              box.classList.add(dBoxes[br][bc] === 1 ? 'd-box-p1' : 'd-box-p2');
+            }
+            b.appendChild(box);
+          }
+        }
+      }
+    }
+
+    function claimDotEdge(type, r, c) {
+      soundPlace();
+      if (type === 'H') dH[r][c] = dTurn;
+      else dV[r][c] = dTurn;
+
+      let captured = 0;
+      for (let br = 0; br < 3; br++) {
+        for (let bc = 0; bc < 3; bc++) {
+          if (!dBoxes[br][bc]) {
+            if (dH[br][bc] && dH[br+1][bc] && dV[br][bc] && dV[br][bc+1]) {
+              dBoxes[br][bc] = dTurn;
+              dScores[dTurn]++;
+              captured++;
+              soundClash('X');
+            }
+          }
+        }
+      }
+
+      if (captured === 0) {
+        dTurn = dTurn === 1 ? 2 : 1;
+      } else {
+        document.getElementById('dotsTurnSub').textContent = `Territory seized! Bonus turn granted to P${dTurn}!`;
+      }
+
+      renderDotsBoard();
+      updateDotsHeader();
+
+      if (dScores[1] + dScores[2] === 9) {
+        const winner = dScores[1] > dScores[2] ? 'Player 1 (Red)' : (dScores[2] > dScores[1] ? 'Player 2 (Blue)' : 'Tie');
+        document.getElementById('dotsStatusTitle').innerHTML = `🏆 MATCH CONCLUDED! Winner: <strong>${winner}</strong>!`;
+        soundVictory();
+        increaseBounty(2);
+      }
+    }
 
     // -------------------------------------------------------------
     // Init Setup

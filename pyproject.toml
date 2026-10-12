@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "loopless-tictactoe"
-version = "1.0.0"
-description = "A 100% loop-free Tic-Tac-Toe implementation in Python with CLI, GUI, and Minimax AI"
+name = "grand-line-arcade"
+version = "2.0.0"
+description = "Grand Line Arcade: A 100% loop-free Python game engine and multi-game offline web arcade featuring Tic-Tac-Toe, Sudoku, Ludo, Gravity-Toe, and Dots & Boxes"
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
